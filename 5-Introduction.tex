@@ -1,0 +1,79 @@
+% Dans l'introduction, on présente le problème étudié et les buts
+% poursuivis. L'introduction permet de faire connaître le cadre de la
+% recherche et d'en préciser le domaine d'application. Elle fournit
+% les précisions nécessaires en ce qui concerne le contexte de
+% réalisation de la recherche, l'approche envisagée, l'évolution de
+% la réalisation. En fait, l'introduction présente au lecteur ce
+% qu'il doit savoir pour comprendre la recherche et en connaître la
+% portée.
+\Chapter{INTRODUCTION}\label{sec:Introduction}  % 10-12 lignes pour introduire le sujet.
+Swarm intelligence can be defined as a collective behavior in a group of agents aiming to achieve objectives. Swarm intelligence algorithms have seen diverse applications for a few decades \cite{lones2014metaheuristics}, such as in the medical field \cite{lewis1992behavioral, al2012identifying} and more recently in data mining \cite{martens2011editorial}. On the other hand, swarm robotics, a subset of swarm intelligence applied to robots, has seen few real-world applications and has so far been mostly limited to laboratory research projects. However, research in this field is accelerating, and techniques and use cases making swarm robotics more useful are constantly appearing. Among the considerations brought forward by ongoing research is robustness and resilience, which are crucial if industrial applications are to be considered \cite{prorok2021beyond}. This is where this work seeks to make an impact, by providing ideas which will help swarm robotics move from laboratory to real-world applications by increasing swarm robustness.
+
+%%
+%%  CONCEPTS DE BASE / BASIC CONCEPTS
+%%
+\section{Definitions and Basic Concepts}  % environ 2-3 pages
+
+\subsection{Swarm Intelligence}
+Inspiration from emergent behaviors in biology
+
+Swarm intelligence takes inspiration from biology and behaviors observed in nature. For example, bee ant and termite colonies have yielded algorithms.
+
+As for insects, performance and robustness of these algorithms results from the strength of numbers.
+
+All behaviors must be based on local interactions to avoid centralized control
+
+\subsubsection{Decentralized/Distributed}
+
+\subsection{Scalability}
+Robot designed for scalability \cite{rubenstein2012kilobot} in tasks like self-assembly \cite{rubenstein2014programmable}.
+Robot limitations (small size: can have many, but limited resources. Large size: can only have few).
+
+\subsection{Swarm Robotics}
+\begin{enumerate}
+    \item Difference with swarm intelligence
+    \item Robots must be able to communicate and sense other's work
+    \item Simple tasks like pattern formation have been studied extensively \cite{hamann2008framework,vicsek2012collective,coppola2019provable}, but do not translate directly to real world applications.
+\end{enumerate}
+
+
+\subsection{Belief Map}
+
+
+\clearpage
+
+%%
+%% ELEMENTS DE LA PROBLEMATIQUE
+%%
+\section{Problem Elements}  % environ 3 pages
+
+\subsection{Avoiding Failures}
+Robustness has been studied in single-robot systems, where robots are designed to be as reliable as possible though component redundancy \cite{brooks1986robust} or through verified control systems \cite{lim1987robust,slotine1985robust,slotine1991applied}. However, even with these precautions, robots can still fail. This is where the inherent resilience of robot swarms becomes interesting, by allowing some individuals to fail while still maintaining group collective functionality. It has been shown that multi-robot teams are usually resilient to a reasonable number of robot failure \cite{ramachandran2019resilience,wehbe2021probabilistic,winfield2006safety}. Even though resilience through numbers is good, swarm systems should aim to reduce individual failures as they can create performance and material losses. Even worse, failure in an individual may cause a propagation of failures through the group \cite{prorok2021beyond}. Resilience is a quality which goes further than robustness. Indeed, systems designed with resilience in mind should accommodate failures by allowing the swarm to perform its normal functions (albeit with a possible loss of performance).
+
+\subsection{Using Local Information}
+
+\subsection{Limited Resources}
+Robots are usually either small in size and capacity, or are limited in numbers. Therefore, it is essential to conceive algorithms adapted for swarms of resource-limited robots. These algorithms must be as simple and efficient as possible. For example, \cite{fontbonne2020distributed} show how to perform distributed on-line learning with limited bandwidth.
+
+\subsection{Verifying Scalability}
+Use of physics-based simulator, but robot-simulation gap \cite{jakobi1995noise}, particularly for swarms of robots \cite{francesca2016automatic}. A simulator reducing the impact of this problem is \cite{Pinciroli:SI2012}, because of its physics-based approach and its ability to simulate thousands of robots simultaneously.
+
+% On veut éviter que la figure et le tableau soient placés au-delà de la section courante.
+\FloatBarrier
+
+
+%%
+%% OBJECTIFS DE RECHERCHE / RESEARCH OBJECTIVES
+%%
+\section{Research Objectives}  % 0.5 page
+The broad objective pursued in this research is to develop two distinct systems which both introduce risk awareness into swarm robotics. Therefore, two categories of more specific objectives can be derived for each.
+
+\subsection{RASS Research Objectives}
+\subsection{DORA Explorer Research Objectives}
+
+
+%%
+%% PLAN DU MEMOIRE / THESIS OUTLINE
+%%
+\section{Thesis Outline}  % 0.5 page
+This thesis is structured as follows. First, In Ch.~\ref{sec:RevLitt}, a detailed review of relevant scientific advances is provided. It explores the following themes: distributed information sharing, distributed storage, risk assessment, routing, swarm programming, and path planning and exploration strategies. Second, in Ch.~\ref{sec:Theme1}, RASS, a method of introducing risk awareness into swarm storage is presented. This section contains a detailed explanation of the system as well as experimental results derived from its implementation. Third, in Ch.~\ref{sec:Theme2}, a second risk-aware swarm system is presented in the form of DORA Explorer, a distributed algorithm leveraging swarm collaboration to safely explore unknown environments. In this section, an architectural description is given and is followed by experimental results. Fourth, in Ch.~\ref{sec:Conclusion}, the work conducted in the context of this thesis is summarized. Finally, in Ch.~\ref{sec:Limitations}, the limitations of this thesis' work are presented and followed by recommendations for future research.

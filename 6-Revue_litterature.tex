@@ -1,0 +1,34 @@
+\Chapter{LITERATURE REVIEW}\label{sec:RevLitt}
+This chapter explores relevant state of the art literature related to the domain of this thesis. This includes insights into the following topics: swarm intelligence, distributed information sharing, communication and consensus, distributed storage, risk assessment in robot swarms, and path planning and exploration strategies.
+
+\section{Swarm Intelligence}
+\cite{dorigo2021swarm}, \cite{prorok2021beyond}.
+
+\subsection{Communication and Consensus}
+\cite{reina2015design}, \cite{valentini2017achieving}, \cite{selden2021botnet}, \cite{dutta2020efficient}, \cite{davis2016consensus}.
+
+\section{Distributed Information Sharing and Distributed Storage}
+Orignal stigmergy (ACO): \cite{dorigo2006ant},
+\cite{amigoni2017multirobot}, \cite{pinciroliTuple2016}, \cite{majcherczykSwarmmesh2020} and its application: \cite{majcherczyk2021distributed}, \cite{varadharajan2020soul}, \cite{wu2008ldht}, \cite{ratnasamy2002ght}, \cite{araujo2005chr}, \cite{ahullo2008supporting}.
+
+\section{Routing}
+%%% TODO: Here or in theme 2, explain why we avoid voting (asymptotic time to build graph, voting delay, etc.)
+\cite{draves2004comparison}, \cite{watteyne2009implementation}, \cite{kuruvila2005hop}, \cite{zhang2014efficient}, \cite{al2019efficient}, \cite{jiang2018effective}, \cite{liao2008data}, \cite{dhand2016data}, \cite{tolstaya2021learning}, \cite{ganesan2002empirical}, \cite{hui2004dynamic}.
+
+\section{Risk Assessment in Robot Swarms}
+\cite{stachnissMappingExplorationMobile2003}, \cite{kobayashiSharingExploringInformation2002}, \cite{kobayashiDeterminationExplorationTarget2003}, \cite{indelmanCooperativeMultirobotBelief2018}
+
+\section{Grid Mapping}
+\cite{kobayashiSharingExploringInformation2002}, \cite{kobayashiDeterminationExplorationTarget2003}, \cite{indelmanCooperativeMultirobotBelief2018},
+\cite{hanGridWiseControlMultiAgent},
+\cite{panovGridPathPlanning2018}.
+
+\section{Exploration Strategies}
+\cite{undurti2010online}, \cite{thiebaux2016rao}, \cite{xiao2020robot},
+\cite{luo2019voronoi}, \cite{santos2019decentralized}, \cite{xu2019multi}, \cite{wang2011frontier}, \cite{topiwala2018frontier},
+\cite{dames2012decentralized}, \cite{schwagerMultirobotControlPolicy2017}. \cite{yamauchi1998frontier}.
+
+\section{Swarm Programming and Simulation}
+Languages such as Koord \cite{ghosh2020koord} allow swarms of robots to be programmed with verifiablity in mind, that is each part of the distributed algorithms should be tested in a modular way with fixed guarantees in place. Another swarm-focused programming language is Buzz \cite{pinciroliBuzz2016}. It is designed to be an extensible language with high-level primitives facilitating robot interactions.
+
+Because validating various aspects of the proposed systems requires simulations, it is necessary to use a simulator well suited to scenarios in which multiple agents are present. In this regard, ARGoS  \cite{Pinciroli:SI2012} is particularly well suited, because it has the capacity to run agents on separate threads, therefore improving simulation execution speed. This has the effect of making large scale simulations accessible. Moreover, because ARGoS is a physics-based simulator, it allows to take into account the effects physical interactions between robots, their environment and themselves. Furthermore, ARGoS integrates particularly well with Buzz.

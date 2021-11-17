@@ -1,0 +1,34 @@
+% Liste des sigles et abbréviations / List of acronyms and abbreviations
+\ifthenelse{\equal{\Langue}{english}}{
+	\newcommand\abbrevname{LIST OF SYMBOLS AND ACRONYMS}
+}{
+	\newcommand\abbrevname{LISTE DES SIGLES ET ABRÉVIATIONS}
+}
+\chapter*{\abbrevname}
+\addcontentsline{toc}{compteur}{\abbrevname}
+\pagestyle{pagenumber}
+%
+\begin{acronym}
+  \acro{ASN}{Autonomous System Number}
+  \acro{B.A.T.M.A.N.}{Better Approach to Mobile Ad-hoc Networking}
+  \acro{CRDT}{Conflict-Free Replicated Data Types}
+  \acro{DHT}{Distributed Hash Table}
+  \acro{DBM}{Distributed Belief Map}
+  \acro{DORA}{Distributed Online Risk Aware Explorer}
+  \acro{FBE}{Frontier-Based Exploration}
+  \acro{LRU}{Least Recently Used}
+  \acro{RASS}{Risk Aware Swarm Storage}
+\end{acronym}
+%
+\begin{longtable}{lp{5in}}
+ASN          & Autonomous System Number\\
+B.A.T.M.A.N. & Better Approach to Mobile Ad-hoc Networking\\
+CRDT         & Conflict-Free Replicated Data Types\\
+DBM          & Distributed Belief Map\\
+DHT          & Distributed Hash Table\\
+DORA         & Distributed Online Risk Aware Explorer\\
+FBE          & Frontier-Based Exploration\\
+LRU          & Least Recently Used\\
+RASS         & Risk Aware Swarm Storage\\
+\end{longtable}
+
