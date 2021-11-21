@@ -7,38 +7,47 @@
 % qu'il doit savoir pour comprendre la recherche et en connaître la
 % portée.
 \Chapter{INTRODUCTION}\label{sec:Introduction}  % 10-12 lignes pour introduire le sujet.
-Swarm intelligence can be defined as a collective behavior in a group of agents aiming to achieve objectives. Swarm intelligence algorithms have seen diverse applications for a few decades \cite{lones2014metaheuristics}, such as in the medical field \cite{lewis1992behavioral, al2012identifying} and more recently in data mining \cite{martens2011editorial}. On the other hand, swarm robotics, a subset of swarm intelligence applied to robots, has seen few real-world applications and has so far been mostly limited to laboratory research projects. However, research in this field is accelerating, and techniques and use cases making swarm robotics more useful are constantly appearing. Among the considerations brought forward by ongoing research is robustness and resilience, which are crucial if industrial applications are to be considered \cite{prorok2021beyond}. This is where this work seeks to make an impact, by providing ideas which will help swarm robotics move from laboratory to real-world applications by increasing swarm robustness.
+Swarm intelligence can be defined as a collective behavior in a group of agents aiming to achieve objectives. Swarm intelligence algorithms have seen diverse applications for a few decades \cite{lones2014metaheuristics}, such as in the medical field \cite{lewis1992behavioral, al2012identifying} and more recently in data mining \cite{martens2011editorial}. On the other hand, swarm robotics, a subset of swarm intelligence applied to robots, has seen few real-world applications and has so far been mostly limited to laboratory research projects. However, research in this field is accelerating, and techniques and use cases making swarm robotics more useful are constantly appearing. Among the considerations brought forward by ongoing research is robustness and resilience, which are crucial if industrial applications are to be considered \cite{prorok2021beyond,dorigo2021swarm}. This is where this work seeks to make an impact, by providing ideas which will help swarm robotics move forward from laboratory experiments to real-world applications by increasing swarm robustness.
+
+It should be noted that both \ac{RASS} and \ac{DORA}, the systems presented in Ch. \ref{sec:Theme1} and Ch. \ref{sec:Theme2} respectively, are products of the research conducted for articles which are not yet published at the moment of writing this thesis. Because of intellectual property reasons, the presentation approaches used in each case differed. For \ac{RASS}, the article was reused and slightly adapted to add details and clarity. In \ac{DORA}'s case, the article was summarized.
+
 
 %%
 %%  CONCEPTS DE BASE / BASIC CONCEPTS
 %%
 \section{Definitions and Basic Concepts}  % environ 2-3 pages
+In the following section, concepts central to this work and useful to its comprehension are briefly explained to provide some context.
 
 \subsection{Swarm Intelligence}
-Inspiration from emergent behaviors in biology
+Swarm intelligence takes inspiration from biology and behaviors observed in nature. Of notable interest in this field are groups of animals in which emergent behaviors can be observed. Bee, ant, and termite colonies are known to show self-organization and coordination properties. Many algorithms based (sometimes loosely) on those emergent behaviors have been created and are the foundation of swarm intelligence. Notable examples include Ant Colony Optimization \cite{colorni1991distributed}, the Bees algorithm \cite{pham2006bees} and Artificial Bee Colony algorithm \cite{karaboga2010artificial}.
 
-Swarm intelligence takes inspiration from biology and behaviors observed in nature. For example, bee ant and termite colonies have yielded algorithms.
-
-As for insects, performance and robustness of these algorithms results from the strength of numbers.
-
-All behaviors must be based on local interactions to avoid centralized control
-
-\subsubsection{Decentralized/Distributed}
-
-\subsection{Scalability}
-Robot designed for scalability \cite{rubenstein2012kilobot} in tasks like self-assembly \cite{rubenstein2014programmable}.
-Robot limitations (small size: can have many, but limited resources. Large size: can only have few).
+As is the case for insects, performance and robustness of these algorithms results from the strength of numbers present in large swarms of agents. An important property of swarm intelligence is that agents should not be aware of the existence of a larger system, so as to require little coordination. Consequently, a criterion devised as part of these algorithms is that all agent behaviors must be based on local interactions to avoid centralized control. Indeed, such an outcome could result in bottlenecks or single point of failures being introduced. Relying solely on local interactions often has the added benefit of making these solutions simple and elegant.
 
 \subsection{Swarm Robotics}
-\begin{enumerate}
-    \item Difference with swarm intelligence
-    \item Robots must be able to communicate and sense other's work
-    \item Simple tasks like pattern formation have been studied extensively \cite{hamann2008framework,vicsek2012collective,coppola2019provable}, but do not translate directly to real world applications.
-\end{enumerate}
+Swarm robotics emerged from the domain of swarm intelligence, from which algorithms are adapted and applied to groups of robots. Not only do algorithms transpose from one field to the other, but so do more general key principles. In both fields, solutions must be as decentralized as possible (sometimes, a base station may be required for robots). Moreover, the need for local interaction implies that robots must be able to communicate with one another or to at least sense environmental information indicative of the others' work. Exchange of information, whatever the shape it assumes, is required.
+
+The key difference with swarm intelligence is that the latter's algorithms have been extensively applied in many concrete applications, which is not yet the case of swarm robotics. Simple tasks like pattern formation have been studied extensively \cite{hamann2008framework,vicsek2012collective,coppola2019provable}, but do not translate directly to real world applications. Also, because of the physical nature of robots, specific challenges and limitations arise: storage and bandwidth restrictions, mechanical failures, etc. all affect the designed systems.
+
+\subsection{Decentralized/Distributed}
+Having explained the distinction between swarm intelligence and swarm robotics, a clarification regarding the definition of a \textit{distributed} system as opposed to a \textit{decentralized} one is required.
+
+Distributed systems imply multiple connected devices which interact to perform a common set of tasks. This interaction may occur through various means and be coordinated by one or more central devices. This would be the case for an \ac{IoT} application in which edge nodes collect data and forward it to local servers where it can be processed.
+
+Decentralized systems also involve many connected devices which share a common goal. However, they are not coordinated by a central authority, cooperation happens only between peers. This is the case for BitTorrent, which relies on a peer-to-peer architecture in which no centralized activity is involved \cite{zhang2010unraveling}.
+
+In short, a decentralized system is distributed by nature, but the opposite is not necessarily true.
+
+\subsection{Scalability}
+Scalability can be defined as the ability of a system to adapt to changing amounts of work. In the context of swarm robotics, these can fit in two categories. First, additional loads can result from a changing (increasing) number of agents involved in the system, which necessarily impacts its performance because of communication overhead, among other things. Second, a change in burden may happen because of evolving tasks. In any case, both must be considered when designing robust swarm applications.
 
 
-\subsection{Belief Map}
+\subsection{Occupancy and Belief Maps}
+It is a common practice to split an environment in a grid composed of cells. Discretization helps in several ways. First, it allows for easier addressing of areas of interest within it, often making algorithms more intuitive. Second, it eliminates unnecessary computational costs by giving control over how fine grained the description of the environment should be.
+These cells, aside from being useful for positioning, can be used to store information about the state of the environment. They can have any number of dimensions, and usually fall in two main categories: occupancy and belief maps.
 
+Occupancy maps use these cells to store binary values indicating whether something is present or not at a given location. That element could be an obstacle, a source of danger, a target and so on.
+
+Belief maps are generalization of occupancy maps: instead of storing binary values, cells contain a number representing a probability. It indicates the confidence level, or the belief, that the cell contains a given element. Of course, storing probabilities instead of binary values implies more memory usage, but the trade-off is generally worth it as it opens up possibilities for more designs. 
 
 \clearpage
 
@@ -47,29 +56,40 @@ Robot limitations (small size: can have many, but limited resources. Large size:
 %%
 \section{Problem Elements}  % environ 3 pages
 
+Problem elements can be thought of as requirements which need to be fulfilled by the current research project. These fall within two main categories: functional requirements and non-functional requirements. The first are the perceivable characteristics of the system, those which could be demanded by a client. They are system-specific. In the current work, they are the need for good storage/routing performance for \ac{RASS}, and a potent exploration strategy for \ac{DORA}. The second type of requirement, non-functional ones, are less system-specific and can be applied to both designed items. They include low failure rates, local information usage, tolerance to limited resources, and scalability.  
+
+\subsection{Efficient Information Storage and Transmission}
+Broadly, the problem which much be solved here is to allow and extensible and efficient storage. To do so, the decentralization assumption must be slightly relaxed by allowing agents to offload some data to a base station, otherwise the total storage capacity would be static and equal to the sum of the individual capacities. This consideration is realistic in the context of swarm robotics, where the robots often need to contact a base station for other reasons like recharging. To achieve this objective, three items are required.
+
+\begin{enumerate}
+    \item The designed storage policy must allow data to be stored until it is ready to be moved. Consequently, collective swarm storage must be allocated with care to avoid unnecessary duplication which would reduce the storage and data acquisition capacities.
+    \item A simple decentralized routing policy is necessary, and it must not rely on the base station, because robots cannot be assumed to maintain a stable connection with it.
+    \item The routing, besides transmitting data between peers, must also result in data percolation towards base station.
+\end{enumerate}
+
+\subsection{Efficient Exploration}
+Of course, a system which has for its main objective to explore should do well at this task. Thus, \ac{DORA} has to obtain performances at least as good as state-of-the-art systems of the same nature. This means that for the duration of the exploration experiments, \ac{DORA} should cover more unknown terrain than the benchmark solutions. This includes dealing with terrains ridden with obstacles. Furthermore, the chosen strategy cannot rely on centralized planning and coordination, meaning exploration efficiency has to emerge from peers.
+
 \subsection{Avoiding Failures}
-Robustness has been studied in single-robot systems, where robots are designed to be as reliable as possible though component redundancy \cite{brooks1986robust} or through verified control systems \cite{lim1987robust,slotine1985robust,slotine1991applied}. However, even with these precautions, robots can still fail. This is where the inherent resilience of robot swarms becomes interesting, by allowing some individuals to fail while still maintaining group collective functionality. It has been shown that multi-robot teams are usually resilient to a reasonable number of robot failure \cite{ramachandran2019resilience,wehbe2021probabilistic,winfield2006safety}. Even though resilience through numbers is good, swarm systems should aim to reduce individual failures as they can create performance and material losses. Even worse, failure in an individual may cause a propagation of failures through the group \cite{prorok2021beyond}. Resilience is a quality which goes further than robustness. Indeed, systems designed with resilience in mind should accommodate failures by allowing the swarm to perform its normal functions (albeit with a possible loss of performance).
+Robustness has been studied in single-robot systems, where robots are designed to be as reliable as possible though component redundancy \cite{brooks1986robust} or through verified control systems \cite{lim1987robust,slotine1985robust,slotine1991applied}. However, even with these precautions, robots can still fail. This is where the inherent resilience of robot swarms becomes interesting, by allowing some individuals to fail while still maintaining group collective functionality. It has been shown that multi-robot teams are usually resilient to a reasonable number of robot failure \cite{ramachandran2019resilience,wehbe2021probabilistic,winfield2006safety}. Even though resilience through numbers is good, swarm systems should aim to reduce individual failures as they can create performance and material losses. Even worse, failure in an individual may cause a propagation of failures through the group \cite{prorok2021beyond}. Resilience is a quality which goes further than robustness. Indeed, systems designed with that quality in mind should accommodate failures by allowing the swarm to perform its normal functions (albeit with a possible loss of performance).
 
 \subsection{Using Local Information}
+The challenge with this requirement is twofold. First, because it is necessary to select which information is relevant to transmit between peers. This ensures that no unnecessary communication burden is present. It also serves as a way to keep the solution simple, making it easier to integrate in other projects. Second, the means of transmission must be appropriately selected to fit the needs of the solution, that is is must be simple to use and efficient.
 
 \subsection{Limited Resources}
-Robots are usually either small in size and capacity, or are limited in numbers. Therefore, it is essential to conceive algorithms adapted for swarms of resource-limited robots. These algorithms must be as simple and efficient as possible. For example, \cite{fontbonne2020distributed} show how to perform distributed on-line learning with limited bandwidth.
+Some recently developed robots, like the Kilobot \cite{rubenstein2012kilobot}, were created with the first category of scalability in mind. Indeed, their low unit price combined with their small form factor makes the simultaneous use of hundreds or thousands of them possible (hence their name). This capacity has been verified in tasks like self-assembly \cite{rubenstein2014programmable}. However, this comes with a trade-off: they are severely limited in their individual capacity, which makes them susceptible to increased workloads if the swarm size remains constant. The solution to this weakness would be use use more powerful robots, but this obviously incurs higher and possibly unreasonable financial costs. The dilemma is thus that robots are usually either small in size and capacity, or are limited in numbers. Therefore, it is essential to conceive algorithms adapted for swarms of resource-limited robots. These algorithms must be as simple and efficient as possible. For example, \cite{fontbonne2020distributed} show how to perform distributed on-line learning with limited bandwidth.
 
-\subsection{Verifying Scalability}
-Use of physics-based simulator, but robot-simulation gap \cite{jakobi1995noise}, particularly for swarms of robots \cite{francesca2016automatic}. A simulator reducing the impact of this problem is \cite{Pinciroli:SI2012}, because of its physics-based approach and its ability to simulate thousands of robots simultaneously.
-
-% On veut éviter que la figure et le tableau soient placés au-delà de la section courante.
-\FloatBarrier
+\subsection{Scalability}
+Because scalability is such an important characteristic of swarm systems, it is important do devise a strategy to verify the designs proposed in this work include it properly. Therefore, this verification has to include two steps: an assertion of whether the solutions can work at all with an increasing number of robots, and an evaluation of how this increase in number helps the systems' performance in their respective functional goals. In this regard, the use of a physics-based simulator is absolutely necessary to ensure testing realism. However, the robot-simulation gap states that while simulated agents can represent the general behavior of robots, they cannot account for all variables which would be present in real-world testing, thus possibly affecting result validity and accuracy  \cite{jakobi1995noise}. That might lessen the value of the conducted tests, particularly for swarms of robots \cite{francesca2016automatic}. A simulator reducing the impact of this problem is desirable. Testing on physical robots also needs to be conducted to further compound this issue.
 
 
 %%
 %% OBJECTIFS DE RECHERCHE / RESEARCH OBJECTIVES
 %%
 \section{Research Objectives}  % 0.5 page
-The broad objective pursued in this research is to develop two distinct systems which both introduce risk awareness into swarm robotics. Therefore, two categories of more specific objectives can be derived for each.
+The broad objective pursued in this research is to introduce risk awareness into swarm robotics. To do so in a significant way, \ac{RASS} and \ac{DORA} need to collectively address all the problem elements previously presented. Some of the research objectives are common to both. For instance, they must reduce the failure rate comparatively to their related state-of-the-art applications. Moreover, they must show that this is achievable by relying solely on local communication information processing. Additionally, they must be conceived with both limited resources and scalability in mind. Some of the objectives objectives are not shared. First, \ac{RASS} needs to perform well in terms of storage efficiency as well as data transmission speeds. Second, \ac{DORA} has to exhibit good exploration coverage.
 
-\subsection{RASS Research Objectives}
-\subsection{DORA Explorer Research Objectives}
+This thesis therefore seeks to elaborate on how both algorithms comply with the set objectives by detailing their implementation as well as by verifying they respect the desired properties through thorough experimentation.
 
 
 %%

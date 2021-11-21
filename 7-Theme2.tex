@@ -1,6 +1,6 @@
 \Chapter{Risk Aware Exploration}\label{sec:Theme2}
 
-In this chapter, I describe my contribution to an article on which I worked, \ac{DORA} \cite{vielfaure2021dora}, which is closely related to the theme of risk awareness in swarm robotics. Figures in this chapter are taken from the article with permission from the authors.
+In this chapter, the article in which \ac{DORA} was first described \cite{vielfaure2021dora} is summarized. \ac{DORA} was created in the context of this thesis and is closely related to the theme of risk awareness in swarm robotics. To avoid redundancy and to make this chapter more concise, the related works and background necessary to understand this system are presented in Ch. \ref{sec:RevLitt}. Figures in this chapter are taken from the article with permission from the authors.
 
 Because exploration of unknown environments is an important challenge in the
 field of robotics, we wanted to show the benefits of taking risk awareness into account when developing solutions for this kind of challenge. We based our exploration strategy on distributed belief maps. This way, swarm efficiency is leveraged because robots collaborate by sharing useful information. The key idea behind \ac{DORA} is to minimize risk exposure while maximizing exploration coverage, leading to more efficient exploration because of fewer risk-related failures. 
@@ -13,84 +13,6 @@ The motivation for creating a purely decentralized algorithm is to avoid the pit
 
 As we found no existing decentralized risk-aware exploration algorithm, we sought to create one.
 
-
-% \section{Related Work and Background}
-% Distributed information sharing is not trivial, especially considering
-% the challenges of consistency and partial connectivity among the
-% robotic teams~\cite{amigoni2017multirobot}. The virtual stigmergy
-% presented in \cite{pinciroliTuple2016} and implemented in the Buzz
-% programming language \cite{pinciroliBuzz2016} achieves consensus among
-% a group of robots using \ac{CRDT}s,
-% represented as key-value pairs. This sort of shared data structure is
-% particularly relevant for belief maps, since it is easy to assign a
-% unique key to each cell based on its location.  In the virtual
-% stigmergy, data is shared on writing and reading the \ac{CRDT}, with the
-% additional updates on read improving the robustness to temporary
-% disconnections and message drops. This solution differs from
-% distributed hash tables, which require a complete view of the system
-% at every point in time. Other distributed data storage approaches such
-% as SwarmMesh \cite{majcherczykSwarmmesh2020} store data in different
-% locations based on a fitness function instead of replicating them on
-% all robots. This allows the storage of more data with less
-% communication, but robots are less likely to have access to the latest
-% values.
-
-% Belief maps are a simple yet powerful tool for robotic exploration
-% because they can represent an environment with a 2D cell grid. They
-% are a generalization of occupancy maps: instead of storing only one
-% bit per cell to indicate the presence of an obstacle/danger, they
-% store obstacle/danger likelihoods and offer significant improvements
-% for exploration \cite{stachnissMappingExplorationMobile2003}. In the
-% field of multi-robot exploration, early techniques leveraging belief
-% maps date back as far as twenty years
-% \cite{kobayashiSharingExploringInformation2002,kobayashiDeterminationExplorationTarget2003},
-% but they rely on a fixed grid size and are tested only with two
-% robots. More recent works also leverage belief maps for multi-robot
-% exploration. For example,
-% in~\cite{indelmanCooperativeMultirobotBelief2018}, the robots consider
-% both the current beliefs and the expected beliefs from future
-% observations to coordinate their exploration. Grid maps and belief
-% maps are also widely used to train deep reinforcement learning
-% exploration policies
-% \cite{hanGridWiseControlMultiAgent,panovGridPathPlanning2018}. Such
-% techniques generally achieve the best performance in simulated
-% environments, but are usually brittle in more realistic and noisy
-% scenarios.
-
-% Several path planners based on Markov Decision Processes
-% \cite{undurti2010online,thiebaux2016rao,xiao2020robot} take into
-% account risk and have useful definitions of it. However, they assume a
-% knowledge of the global state of the environment, which is unavailable
-% when exploring unknown environments. Furthermore, they are so far only
-% applied to single-robot systems.
-
-% Many distributed exploration strategies that maximize the amount of
-% covered terrain have been proposed. The first approaches to stand out
-% in this regard are Voronoi-based coverage control
-% techniques~\cite{luo2019voronoi,santos2019decentralized}. A second
-% method covers time-varying domains, in which points of interest in the
-% covered region can become more or less interesting to explore,
-% therefore prompting a change in the coverage function
-% \cite{santos2019decentralized,xu2019multi}. Another method to optimize
-% coverage is \ac{FBE}
-% \cite{yamauchi1998frontier} of which many variations have been
-% developed, such as those based on Particle Swarm Optimization
-% \cite{wang2011frontier} or the Wavefront Frontier Detector
-% \cite{topiwala2018frontier}. However, none of these strategies take
-% risk into account, which is inherent to exploration.  Therefore, the
-% exploration strategy implemented in this paper takes inspiration of
-% the multi-robot control algorithm presented in
-% \cite{dames2012decentralized,schwagerMultirobotControlPolicy2017}
-% which maximizes the information gain during exploration in the
-% presence of unknown hazards. However, this optimal algorithm has a
-% very high computational complexity. In \ac{DORA}-Explorer, we introduce
-% approximations to lower the computation load onboard the robots which
-% makes it is well suited for real deployment on resource constrained
-% robotic platforms.
-
-% We build on those approaches and address some their shortcomings by
-% implementing a risk-aware exploration algorithm leveraging a \ac{DBM} of
-% the environment which is not constrained to a fixed size.
 
 \section{System Model}
 \label{dora_system_model}
@@ -259,11 +181,11 @@ Intuition for how \ac{DORA} results from Fig.\ref{results:dora_explored} and Fig
 
 \begin{figure*}
     \centering
-    % \begin{subfigure}{0.45\textwidth}
-    %     \includegraphics[width=\textwidth]{figures/dora_explorer/heatmap_random.png}
-    %     \caption{Random walk}
-    %     \label{results:beliefrandom}
-    % \end{subfigure}
+    \begin{subfigure}{0.45\textwidth}
+        \includegraphics[width=\textwidth]{figures/dora_explorer/heatmap_random.png}
+        \caption{Random walk}
+        \label{results:beliefrandom}
+    \end{subfigure}
     \begin{subfigure}{0.45\textwidth}
         \includegraphics[width=\textwidth]{figures/dora_explorer/heatmap_frontier.png}
         \caption{\ac{FBE}}
@@ -274,7 +196,7 @@ Intuition for how \ac{DORA} results from Fig.\ref{results:dora_explored} and Fig
         \caption{\ac{DORA}}
         \label{results:beliefdora}
     \end{subfigure}
-    \caption[DORA radiation belief maps]{Radiation belief maps of the 20x20m environment for each exploration algorithm of one specific simulation. Blank cells are unvisited areas, red stars are the point radiation sources and grey squares are the randomly generated obstacles.}
+    \caption[DORA radiation belief maps]{Examples of radiation belief maps of the 20x20m environment for each exploration algorithm of one specific simulation. Blank cells are unvisited areas, red stars are the point radiation sources and grey squares are the randomly generated obstacles.}
     \label{results:belief}
 \end{figure*}
 
@@ -282,7 +204,7 @@ In Fig. \ref{results:communicationCosts}, we can see the amount of data exchange
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.95\textwidth]{figures/dora_explorer/communication.png}
+    \includegraphics[width=0.9\textwidth]{figures/dora_explorer/communication.png}
     \caption[DORA communication costs]{Communication costs for \ac{DORA} and \ac{FBE}}
     \label{results:communicationCosts}
 \end{figure}
@@ -290,32 +212,6 @@ In Fig. \ref{results:communicationCosts}, we can see the amount of data exchange
 \FloatBarrier
 
 \section{Conclusion}
-We presented \ac{DORA} Explorer, a novel lightweight risk-aware exploration
-algorithm that minimizes the risk to which robots expose themselves in
-order to maximize the amount of ground they will be able to cover
-without failing. We expected that our exploration algorithm, which
-leverages \ac{DBM}s, would greatly outperform non-coordinated solutions,
-and this has been the case. Indeed, it succeeded in reducing
-considerably the likeliness of robot failures while keeping similar
-ground coverage performance compared to other solutions proposed in
-the literature. \ac{DORA} also showed good scalability thanks to its low
-communication costs. It also showed applicability to real world
-scenarios through experiments with physical robots.
+\ac{DORA} Explorer, is a lightweight risk-aware exploration algorithm. It minimizes the risk to which robots expose themselves to allow them to maximize the amount of explored terrain. By leveraging \ac{DBM}s it outperforms non-coordinated solutions. Indeed, it succeeds in reducing considerably the likeliness of robot failures while keeping similar ground coverage performance compared to other solutions proposed in the literature. \ac{DORA} also showed good scalability thanks to its low communication costs. It also showed applicability to real world scenarios through experiments with physical robots.
 
-In future work, it could be interesting to allow \ac{DORA} to become more
-or less risk-avoiding depending on the changing needs of the
-situation. For example, in a search-and-rescue scenario, an increasing
-urgency to rescue victims could motivate the willingness to take more
-risks as time progresses. Also, more experiments could be conducted by
-testing \ac{DORA} Explorer on a larger team of physical robots exploring
-larger outdoor environments. Further applications of \ac{DORA} could
-include using the generated risk belief map to determine robots'
-fitness to store data in distributed storage systems like SwarmMesh
-\cite{majcherczykSwarmmesh2020}, with robots assigned to tasks in
-dangerous regions being discouraged from storing sensitive
-information. Additionally, in this work we considered that the risk
-associated with the environment can be sensed by the robots. However,
-in some scenarios, the risk cannot be directly perceived by any
-sensors. In these cases, the belief map could be constructed using the
-previous failures of the agents by assigning risk to areas where
-failures have been detected in the past.
+In future work, it could be interesting to modify \ac{DORA} to allow time-varying risk-tolerance thresholds. Additionally, this work assumed that the risk associated with the environment can be measured by the robots' sensors, which is not always the case. To account for this issue, risk beliefs map could be constructed using the previous failures of the agents to infer the presence of danger.

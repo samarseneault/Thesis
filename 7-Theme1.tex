@@ -231,10 +231,9 @@ corrupted due to the combined effect of radiation sources also follows a Bernoul
 distribution given by:
 
 \begin{equation}
-    \mathbb{P}(c_i = 1 | S) \sim \mathcal{B}(r(\bm{x}_i)) = \prod_{\bm{s_j} \in S} \mathbb{P}(c_i = 1 | \bm{s}_j)
+    \mathbb{P}(c_i = 1 | S) \sim \mathcal{B}(r(\bm{x}_i)) = 1 - \prod_{\bm{s_j} \in S} \mathbb{P}(c_i = 1 | \bm{s}_j)
     \label{eq:failure}
 \end{equation}
-
 
 \subsection{Distributed Risk-Aware Storage}
 Our risk-aware storage system is built upon three assumptions:
@@ -413,22 +412,22 @@ The results obtained in the 30 simulation runs for the static topologies (grid-l
 
 \begin{figure}
     \centering
-    \begin{subfigure}{0.45\textwidth}
+    \begin{subfigure}{0.48\textwidth}
         \includegraphics[width=\textwidth]{figures/dora_mesh/grid_reliability.png}
         \caption{Grid topology}
         \label{results:grid_100_reliability}
     \end{subfigure}
-    \begin{subfigure}{0.45\textwidth}
+    \begin{subfigure}{0.48\textwidth}
         \includegraphics[width=\textwidth]{figures/dora_mesh/scale_reliability.png}
         \caption{Scale-free topology}
         \label{results:scale_100_reliability}
     \end{subfigure}
-    \begin{subfigure}{0.45\textwidth}
+    \begin{subfigure}{0.48\textwidth}
         \includegraphics[width=\textwidth]{figures/dora_mesh/lennard_reliability.png}
         \caption{Lennard-Jones topology}
         \label{results:lennard_100_reliability}
     \end{subfigure}
-    \begin{subfigure}{0.45\textwidth}
+    \begin{subfigure}{0.48\textwidth}
         \includegraphics[width=\textwidth]{figures/dora_mesh/random_reliability.png}
         \caption{Random topology}
         \label{results:random_100_reliability}
@@ -439,22 +438,22 @@ The results obtained in the 30 simulation runs for the static topologies (grid-l
 
 \begin{figure}
     \centering
-    \begin{subfigure}{0.45\textwidth}
+    \begin{subfigure}{0.48\textwidth}
         \includegraphics[width=\textwidth]{figures/dora_mesh/grid_speed.png}
         \caption{Grid topology}
         \label{results:grid_100_speed}
     \end{subfigure}
-    \begin{subfigure}{0.45\textwidth}
+    \begin{subfigure}{0.48\textwidth}
         \includegraphics[width=\textwidth]{figures/dora_mesh/scale_speed.png}
         \caption{Scale-free topology}
         \label{results:scale_100_speed}
     \end{subfigure}
-    \begin{subfigure}{0.45\textwidth}
+    \begin{subfigure}{0.48\textwidth}
         \includegraphics[width=\textwidth]{figures/dora_mesh/lennard_speed.png}
         \caption{Lennard-Jones topology}
         \label{results:lennard_100_speed}
     \end{subfigure}
-    \begin{subfigure}{0.45\textwidth}
+    \begin{subfigure}{0.48\textwidth}
         \includegraphics[width=\textwidth]{figures/dora_mesh/random_speed.png}
         \caption{Random topology}
         \label{results:random_100_speed}
@@ -465,22 +464,22 @@ The results obtained in the 30 simulation runs for the static topologies (grid-l
 
 \begin{figure}
     \centering
-    \begin{subfigure}{0.45\textwidth}
+    \begin{subfigure}{0.48\textwidth}
         \includegraphics[width=\textwidth]{figures/dora_mesh/grid_storage.png}
         \caption{Grid topology}
         \label{results:grid_100_storage}
     \end{subfigure}
-    \begin{subfigure}{0.45\textwidth}
+    \begin{subfigure}{0.48\textwidth}
         \includegraphics[width=\textwidth]{figures/dora_mesh/scale_storage.png}
         \caption{Scale-free topology}
         \label{results:scale_100_storage}
     \end{subfigure}
-    \begin{subfigure}{0.45\textwidth}
+    \begin{subfigure}{0.48\textwidth}
         \includegraphics[width=\textwidth]{figures/dora_mesh/lennard_storage.png}
         \caption{Lennard-Jones topology}
         \label{results:lennard_100_storage}
     \end{subfigure}
-    \begin{subfigure}{0.45\textwidth}
+    \begin{subfigure}{0.48\textwidth}
         \includegraphics[width=\textwidth]{figures/dora_mesh/random_storage.png}
         \caption{Random topology}
         \label{results:random_100_storage}
@@ -537,13 +536,22 @@ The low values of local memory usage shown in Table \ref{table:speed} for \ac{RA
 
 \subsection{Experimental setup}
 We evaluated \ac{RASS}' performance with the same
-metrics on physical robots to confirm the real-world applicability of our system. We used 5 small drones in a controlled indoor environment. These drones use standard Raspberry Pi Zeros as their main computer, meaning they have relatively low capabilities, and are therefore well suited to verify our algorithm. We designed a static topology with one drone acting as a base station and 4 others acting as agents. The radiation source (red cone) in Fig. \ref{cogniflyExperiment} is positioned to make one of the paths more dangerous, allowing us to verify if data is routed in the longer but safer path. The communication range is set to 1.5m. The topology is illustrated in Fig. \ref{cogniflyExperiment}. To assess \ac{RASS}' performance, we compared it with a hop-count algorithm over 3 runs.
+metrics on physical robots to confirm the real-world applicability of our system. We used 5 small drones, the CogniFlies \cite{de2021flexible}, in a controlled indoor environment. These drones use standard Raspberry Pi Zeros as their main computer, meaning they have relatively low capabilities, and are therefore well suited to verify our algorithm. We designed a static topology with one drone acting as a base station and 4 others acting as agents. The radiation source (red cone) in Fig. \ref{cogniflyExperiment} is positioned to make one of the paths more dangerous, allowing us to verify if data is routed in the longer but safer path. The communication range is set to 1.5m. The topology is illustrated in Fig. \ref{cogniflyGraph}. To assess \ac{RASS}' performance, we compared it with a hop-count algorithm over 3 runs.
 
 \begin{figure}[htbp]
-	\centering
-    \includegraphics[width=\columnwidth]{figures/dora_mesh/cognifly.jpg}
-    \caption[RASS physical experiment setup]{3x3m environment with 5 drones and a radiation source (red cone).}
-    \label{cogniflyExperiment}
+    \centering
+    \begin{subfigure}{0.9\textwidth}
+        \includegraphics[width=\textwidth]{figures/dora_mesh/cognifly.jpg}
+        \caption[RASS physical experiment setup]{Physical disposition of the 3x3m environment with 5 drones and a radiation source (red cone).}
+        \label{cogniflyExperiment}
+    \end{subfigure}
+    \begin{subfigure}{0.9\textwidth}
+        \includegraphics[width=\textwidth]{figures/dora_mesh/lab_graph_left.png}
+        \caption[RASS physical experiment schema]{A simplified graph description of the physical testing environment. The decaying radiation source is represented by the concentric red circles. The base station, at the top of the figure, is also a drone.}
+        \label{cogniflyGraph}
+    \end{subfigure}
+    \caption{RASS physical experiment setup}
+    \label{cogniflyPhysical}
 \end{figure}
 
 \subsection{Results}
@@ -556,7 +564,7 @@ The reliability results of the physical experiments conducted on the drones are 
     \label{results:physicalRelaibility}
 \end{figure}
 
-\section{Conclusions}
+\section{Conclusion}
 \label{conclusion}
 
 We presented \ac{RASS}, a Risk-Aware Swarm Storage system in which a swarm of robots can collectively store data on strategically chosen members. This choice is made without central coordination and is purely based on local information shared between the robots. This information is simply composed of risk measurements and topological distance from a robot to a base station, and a used to determine a robot's fitness to store data as well as to establish the most reliable and fast route towards the base station.

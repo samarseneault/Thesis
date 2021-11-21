@@ -5,18 +5,17 @@ The objective of the research conducted for this thesis was to design risk-aware
 %%  SYNTHESE DES TRAVAUX / SUMMARY OF WORKS
 %%
 \section{Summary of Works}
-Texte / Text.
+Through a thorough examination of the state-of-the art in the field of swarm robotics, this work established the problems that needed to be solved by the design of novel risk-aware systems. Some, like decentralized storage efficiency and swarm exploration performance, were definitely application-specific. The rest were more generic and included failure resilience, scalability and adaptability to limited resources. In all cases, these objectives were met and confirmed by the results obtained through virtual and physical experiments.
+
 
 %%
 %%  LIMITATIONS
 %%
 \section{Limitations}\label{sec:Limitations}
-Robot-simulation gap would require further experiments.
-
-Physical scalability, in both RASS and DORA, has not been extensively tested. This is due to a limited number of robots available for each experiment. In RASS's case, we could only use 5 CogniFlies \cite{de2021flexible}, and for DORA, we only had access to 5 KheperaIV robots.
+Because of the robot-simulation gap problem, further experiments would be beneficial. Indeed, physical scalability, in both RASS and DORA, has not been extensively tested. This is due to a limited number of robots available for each experiment. In \ac{RASS}'s case, we could only use 5 CogniFlies; for \ac{DORA}, we only had access to 5 KheperaIV. Thus, conducting experiments with more robots could increase confidence in the results obtained for both systems. The effects of varying parameter values in \ac{DORA} were not studied; experiments performed in this regard could lead to performance improvements. The effects of communication issues on routing and exploration performance could have been studied in further experiments with \cite{selden2021botnet}. Another limitation of this work is that topologies with more than one connected component were not considered. Yet, unless systems are designed to prevent it, these situations might arise in swarm robotics applications were subgroups are likely to wander and get disconnected from the rest of the swarm. Studying the effect of these disconnections could provide more insight.
 
 %%
 %%  AMELIORATIONS FUTURES *-/ FUTURE RESEARCH
 %%
 \section{Future Research}
-Adapting solutions to heterogeneous swarms with different resistance to risk could prove an interesting challenge and would show the adaptability of both RASS and DORA to more diverse scenarios in which swarms can retain their group performance advantage derived from heterogeneity \cite{ferrante2015evolution}. Testing in more challenging environments (rugged terrain, terrains with hidden lines of sights, dynamic risk conditions, etc.). Further improvements could be integrated to the system, such as improvements to security by using techniques like sinkhole detection proposed by \cite{abdullah2015detecting}.
+Adapting solutions to heterogeneous swarms with different resistance to risk could prove an interesting challenge and would show the adaptability of both RASS and DORA to more diverse scenarios in which swarms could retain their group performance advantage derived from heterogeneity \cite{ferrante2015evolution}. Testing in more challenging environments (rugged terrain, terrains with hidden lines of sights, dynamic risk conditions, etc.). Further improvements could be integrated to the system, such as improvements to security by using techniques like sinkhole detection proposed by \cite{abdullah2015detecting}. Going forward, the most interesting path for \ac{RASS} and \ac{DORA} would be to integrate them with larger systems to see what benefits they can bring to complex swarm robotics applications.
