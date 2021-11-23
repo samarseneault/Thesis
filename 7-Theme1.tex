@@ -1,10 +1,5 @@
 \Chapter{Risk Aware Swarm Storage}\label{sec:Theme1}
 
-%%%%%%
-% TODO: Explain routing mechanism with figure and more details
-
-% TODO: Explain method to put Buzz on CogniFlies/KH4
-
 In robotics, data acquisition often plays a key part in
 unknown environment exploration. For example, storing information about the topography of the explored terrain or the natural dangers in the environment can
 inform the decision-making process of the robots. 
@@ -31,7 +26,7 @@ Unfortunately, multi-robot systems usually
 suffer from unreliable connectivity \cite{amigoni2017multirobot}, and
 directly sending the information to an external storage system
 (e.g., the cloud) may not always be feasible. An alternative
-to overcome this issue is using the swarm of
+to overcome this issue is to use the swarm of
 robots as means of distributed data storage. However, because the robots composing the swarm often have very limited memory and storage capacities, saving
 large amounts of data across the swarm can prove
 challenging. Furthermore, the robots in a swarm are not necessarily
@@ -87,9 +82,9 @@ draw some conclusions.
 
 \subsection{Distributed Storage}
 
-\ac{DHT}s are data structures specifically
+A \ac{DHT} is a data structures specifically
 designed to partition data across a network of storage nodes in a
-key-value format. They come with a set of issues susceptible of
+key-value format. These structures come with a set of issues susceptible of
 hindering their performance, consistency and partial connectivity
 being some of them~\cite{amigoni2017multirobot}. The virtual stigmergy
 presented in \cite{pinciroliTuple2016} tackles the problem using
@@ -135,7 +130,7 @@ provide increased situational awareness for robots to effectively
 perform a given mission. Belief maps and occupancy maps provide this
 situational awareness by assigning values to cells of a discretized
 environment. Whereas occupancy maps define the presence or absence of
-a feature (e.g. fire), beliefs maps assign probabilities to the cells
+a feature (e.g. fire), belief maps assign probabilities to the cells
 of the discretized environment and usually offer better performance
 \cite{stachnissMappingExplorationMobile2003}. Belief maps have been
 extensively used in the past for robotic exploration
@@ -174,7 +169,7 @@ colonies \cite{jiang2018effective,liao2008data}. However, the
 former category has applications mostly in static topology networks,
 which makes it ill-suited to our needs. The latter category
 specifically addresses data aggregation, which is particularly
-relevant to our objective our percolating data towards a base station.
+relevant to our objective of percolating data towards a base station.
 
 
 \section{System Model}
@@ -288,7 +283,7 @@ focus of this work, the routing table held by each node only contains the minima
 between its neighbours and the base station and can therefore
 be implemented with a hash table. Therefore, given the existence of at least one (multi-hop) path between any node and the base station, we can establish a routing table based on hop count. The process to construct and periodically update this 
 table involves exchanging messages between the base station and the nodes as suggested by 
-\cite{abdullah2015detecting}, as we implement in Alg.~\ref{alg:routing}. The general idea is that the base station emits a 0 hop message periodically, and whenever a node receives such a message (either from the base station or from another neighbor), it re-emits the message with an incremented count. Note that a node will only emit the message based on the smallest hop count it received; these counts are stored in the previously mentioned hash table. This percolation process from the station to the nodes creates a hop count gradient.
+\cite{abdullah2015detecting}, as we implement in Alg.~\ref{alg:routing}. The general idea is that the base station emits a 0 hop message periodically, and whenever a node receives such a message (either from the base station or from another neighbour), it re-emits the message with an incremented count. Note that a node will only emit the message based on the smallest hop count it received; these counts are stored in the previously mentioned hash table. This percolation process from the station to the nodes creates a hop count gradient.
 Assuming a message can only be forwarded to an immediate neighbour within a given time 
 step, the required time to build the routing table in a connected graph is bounded by 
 $\Omega(1)$ and $\mathcal{O}(|A|)$ as it takes at most $|A|$ steps to send a message from 
@@ -335,7 +330,7 @@ itself a potential $\phi_i$ based on its fitness to store data, given by:
  required to reach the base station from $i$ as specified in the
  routing table. Parameters $\alpha$ and $\beta$ are respectively the routing weights and 
  risk weights, which allow adapting the policy based on the relative importance of the 
- routing time and the environmental, risk with respect to each other. Similarly to 
+ routing time and the environmental risk with respect to each other. Similarly to 
  \cite{majcherczykSwarmmesh2020}, a node  which becomes unfit to store data will evict such 
  data by moving it into its routing queue. The condition for ``unfitness'' is simply:
 
@@ -344,7 +339,7 @@ itself a potential $\phi_i$ based on its fitness to store data, given by:
 \end{equation}
 
 where $\mathcal{N}$ and $T$ are the set of $i$'s neighbours and the fitness threshold, 
-respectively. The latter's purpose is to ensure data is transferred only when the 
+respectively. The latter's purpose is to ensure that data is transferred only when the 
 neighbours' max fitness is significantly higher than $\phi_i$ to avoid instability and 
 overhead which would result from frequent and inefficient transfers. This fitness policy  c
 auses data to naturally percolate along the edges towards the base station because nodes 
@@ -356,6 +351,8 @@ located in safer areas. When necessary, data is evicted using a \ac{LRU} policy 
 \label{Simulations}
 
 \subsection{Experimental Setup}
+\label{rassSetup}
+
 We ran extensive simulations in a physics-based simulator, ARGoS
 \cite{Pinciroli:SI2012} with models of Khepera IV
 \cite{kteam2021kheperaiv} robots to eliminate the effect of potential
@@ -392,7 +389,7 @@ with low uncertainty. The robots are placed within a 20m by 20m arena and their 
     \label{argos:random-walk}
 \end{figure}
 
-In order to replicate realistic operation scenarios, we chose to artificially introduce bandwidth limitations. In all experiments, robots can only exchange up to 10 data items at every time step. For the same reason, our simulated robots have a limited storage capacity of 50 data items of at most 50 bytes each, as the data are simple items such as small tables or floating-point numbers. This gives a total storage capacity of 2500kb per robot. Because the robots can only exchange up to 20\% of their stored data at a given time step, it amounts to a bandwidth of 0.5kb/s. Data are generated by each robot at fixed out of phase intervals. 
+In order to replicate realistic operation scenarios, we chose to artificially introduce bandwidth limitations. In all experiments, robots can only exchange up to 10 data items at every time step. For the same reason, our simulated robots have a limited storage capacity of 50 data items of at most 50 bytes each, as the data are simple items such as small tables or floating-point numbers. This gives a total storage capacity of 2500kb per robot. Because the robots can only exchange up to 20\% of their stored data at a given time step, it amounts to a bandwidth of 0.5kb/s. Data is generated by each robot at fixed out of phase intervals. 
 
 To evaluate the performance of our system in different scenarios, we tested it with static topologies: a grid-like formation, and a scale-free network; as well as with dynamic topologies: a formation obtained through Lennard-Jones potential interactions and a formation evolving from random walk motions. Testing with static topologies allows us to verify applicability with fixed wireless sensor networks relevant to IoT applications, while experiments with dynamic topologies are more relevant for mobile robotics applications.
 
@@ -408,7 +405,9 @@ where $n_g$ and $n_l$ are respectively the amount of data generated and lost at 
 
 \subsection{Results}
 
-The results obtained in the 30 simulation runs for the static topologies (grid-like and scale-free) as well as for the dynamic topologies (Lennard-Jones potential and random walk) are presented by metric in Figs. \ref{results:rass_reliability}, \ref{results:rass_speed} and \ref{results:rass_storage}.
+The results obtained in the 30 simulation runs for the static topologies (grid-like and scale-free) as well as for the dynamic topologies (Lennard-Jones potential and random walk) are presented in groups for each metric in Figs. \ref{results:rass_reliability}, \ref{results:rass_speed} and \ref{results:rass_storage}.
+
+Results show that \ac{RASS} outperforms the hop-count algorithm in terms of reliability. For the grid topology experiments, Fig. \ref{results:grid_100_reliability} shows that \ac{RASS} was more than 1.5 times as reliable as the closest benchmark. For the experiments using the scale-free topology (Fig. \ref{results:scale_100_reliability}, the results were much closer, but \ac{RASS} performed the best. The reliability obtained for the Lennard-Jones (Fig. \ref{results:lennard_100_reliability}) and the random topologies (Fig. \ref{results:random_100_reliability} were similar, as they were on average 1.4 times better than the best competitor. Because of the risk awareness component included in its fitness policy as detailed in Eq. \ref{equation:fitness}, robots do not always route the data through the shortest path to the base station. \ac{RASS} avoids the dangerous storage nodes of the system when routing data which explains the higher reliability levels displayed in Fig. \ref{results:grid_100_reliability}, Fig. \ref{results:scale_100_reliability}, Fig. \ref{results:lennard_100_reliability} and Fig. \ref{results:random_100_reliability} . This is why, on average, \ac{RASS} takes 54.89\% more time to route the data to the base station when compared to the hop-count algorithm. The shortest path might not always be the safest one; \ac{RASS} will take an alternate route if the risk associated with the shortest one is too high. This happens whenever the risk element in Eq. \ref{equation:fitness} is high enough to offset a possibly low value in the hop count term. On the other hand, the hop-count algorithm always takes the shortest path towards the base station regardless of the risk associated with it. This leads to a higher number of data losses due to corruption and an overall lower reliability. The clear outlier for all topologies is the virtual stigmergy, achieving very poor reliability figures. The reasons for this are explained further because they are also reflected by another metric.
 
 \begin{figure}
     \centering
@@ -436,6 +435,8 @@ The results obtained in the 30 simulation runs for the static topologies (grid-l
     \label{results:rass_reliability}
 \end{figure}
 
+The hop count algorithm can yield faster transfer speeds for all topologies. As explained in Sec. \ref{rassSetup}, transfer speed analysis for the virtual stigmergy was excluded. In the grid topology (Fig. \ref{results:grid_100_speed}), the mean transmission time for the hop count algorithm half smaller than \ac{RASS}'s. The smaller amount of messages shown in the graph for the hop count method is explained by its poor reliability, meaning fewer messages reached their destination. Fig. \ref{results:scale_100_speed}, showing results for the scale-free topology, is where the results are closer: the distributions are almost identical, except for a small tail end in \ac{RASS}'s case Fig. The transfer speed distributions for the Lennard-Jones and the random topologies are presented in  \ref{results:lennard_100_speed} and Fig. \ref{results:random_100_speed} respectively. They are quite similar: \ac{RASS} has slower transfer speeds, but its curve is in both cases has significant overlap with the one from the hop count algorithm.
+
 \begin{figure}
     \centering
     \begin{subfigure}{0.48\textwidth}
@@ -461,6 +462,8 @@ The results obtained in the 30 simulation runs for the static topologies (grid-l
     \caption[RASS transfer speeds]{Speed comparison of \ac{RASS}, hop count and stigmergy in different topologies.}
     \label{results:rass_speed}
 \end{figure}
+
+The other studied metric was the evolution of the total storage capacity of the system over time. As for the other metrics, the gap between \ac{RASS},the hop count algorithm and the virtual stigmergy was most pronounced in the grid topology results presented in Fig. \ref{results:grid_100_storage}. In this situation, \ac{RASS} managed to store twice as much data as any of the benchmarks. For the scale-free topology, the results were much closer as shown in Fig. \ref{results:scale_100_storage}, but the risk-aware solution still performed the best. For the Lennard-Jones and random topologies, \ac{RASS} achieved a 45.2\% and 60\% improvement in system-wide storage capacity over the next best compared method.
 
 \begin{figure}
     \centering
@@ -488,20 +491,6 @@ The results obtained in the 30 simulation runs for the static topologies (grid-l
     \label{results:rass_storage}
 \end{figure}
 
-Results show that \ac{RASS} outperforms the hop-count algorithm in terms of reliability. Because 
-of the risk awareness component included in its fitness policy as detailed in Eq. 
-\ref{equation:fitness}, robots do not always route the data through the shortest path to 
-the base station. \ac{RASS} avoids the dangerous storage nodes of the system when routing data 
-which explains the higher reliability levels displayed in Fig. 
-\ref{results:grid_100_reliability}, Fig. \ref{results:scale_100_reliability}, Fig. 
-\ref{results:lennard_100_reliability} and Fig. \ref{results:random_100_reliability} . This 
-is why, on average, \ac{RASS} takes 54.89\% more time to route the data to the base station when 
-compared to the hop-count algorithm. The shortest path might not always be the safest one; 
-\ac{RASS} will take an alternate route if the risk associated with the shortest one is too high. 
-On the other hand, the hop-count algorithm always takes the shortest path towards the base 
-station regardless of the risk associated with it. This leads to a higher number of data 
-losses due to corruption and an overall lower reliability.
-However, hop count can yield faster transfer speeds as shown in Fig. \ref{results:grid_100_speed}, Fig. \ref{results:scale_100_speed}, Fig. \ref{results:lennard_100_speed}, Fig. \ref{results:random_100_speed} and table \ref{table:speed}.
 
 \begin{table}[htbp]
 \centering
@@ -527,16 +516,14 @@ However, hop count can yield faster transfer speeds as shown in Fig. \ref{result
 \label{table:speed}
 \end{table}
 
-For the virtual stigmergy, most of the data losses can be attributed to the storage having reached its maximum capacity. Indeed, because of the fully replicated nature of the stigmergy, the memory of the agents is quickly saturated. Table \ref{table:speed} shows that on average, across the 500 steps of the simulations runs, the virtual stigmergy has 100\% of every individual robot memory used. This means that the nodes of the system are simply full and cannot store data anymore. In comparison, \ac{RASS} uses between 1\% and 2\% of the local memories of the nodes, and hop-count is even lower at values around 0.5\%. This full redundancy prevents losing data from corruptions. However, it entails a very inefficient use of the memory of the robots and ultimately leads to data losses due to insufficient memory capacity. The result is an unchanging storage capacity over time and poor reliability as shown in Fig. \ref{results:grid_100_reliability} for the virtual stigmergy strategy.
-
-The low values of local memory usage shown in Table \ref{table:speed} for \ac{RASS} and hop-count were obtained because the topologies used to test the algorithms were usually well connected in accordance with the connected graph assumption we made in \ref{section:routingTable}. For the most part, multiple routes were connecting the nodes to the base station and as a result, the collected data was routed towards the base station instead of being kept locally. Such a result implies that the system, by maintaining a low individual storage occupancy, allows the robot to adapt to situations in which they would be temporarily stranded: if their storage were to be mostly full, they would not be able to generate new data without promptly losing it. This storage buffer thus allows them to continue their data collection while they are temporarily disconnected from the rest of the swarm.
+Looking at a summary of these results can help gain further understanding, and table \ref{table:speed} is useful to this end. For the virtual stigmergy, most of the data losses can be attributed to the storage having reached its maximum capacity. Indeed, because of the fully replicated nature of the stigmergy, the memory of the agents is quickly saturated. Table \ref{table:speed} shows that on average, across the 500 steps of the simulations runs, the virtual stigmergy has 100\% of every individual robot memory used. This means that the nodes of the system are simply full and cannot store data anymore. In comparison, \ac{RASS} uses between 1\% and 2\% of the local memories of the nodes, and hop-count is even lower at values around 0.5\%. This full redundancy prevents losing data from corruptions. However, it entails a very inefficient use of the memory of the robots and ultimately leads to data losses due to insufficient memory capacity. The result is an unchanging storage capacity over time and poor reliability as shown in Fig. \ref{results:grid_100_reliability} for the virtual stigmergy strategy. The low values of local memory usage shown in Table \ref{table:speed} for \ac{RASS} and hop-count were obtained because the topologies used to test the algorithms were usually well connected in accordance with the connected graph assumption we made in \ref{section:routingTable}. For the most part, multiple routes were connecting the nodes to the base station and as a result, the collected data was routed towards the base station instead of being kept locally. Such a result implies that the system, by maintaining a low individual storage occupancy, allows the robots to adapt to situations in which they would be temporarily stranded: if their storage were to be mostly full, they would not be able to generate new data without promptly losing it. This storage buffer thus allows them to continue their data collection while they are temporarily disconnected from the rest of the swarm.
 
 \section{Physical experiments}
 \label{Physical experiments}
 
 \subsection{Experimental setup}
 We evaluated \ac{RASS}' performance with the same
-metrics on physical robots to confirm the real-world applicability of our system. We used 5 small drones, the CogniFlies \cite{de2021flexible}, in a controlled indoor environment. These drones use standard Raspberry Pi Zeros as their main computer, meaning they have relatively low capabilities, and are therefore well suited to verify our algorithm. We designed a static topology with one drone acting as a base station and 4 others acting as agents. The radiation source (red cone) in Fig. \ref{cogniflyExperiment} is positioned to make one of the paths more dangerous, allowing us to verify if data is routed in the longer but safer path. The communication range is set to 1.5m. The topology is illustrated in Fig. \ref{cogniflyGraph}. To assess \ac{RASS}' performance, we compared it with a hop-count algorithm over 3 runs.
+metrics on physical robots to confirm the real-world applicability of our system. We used 5 small drones, the CogniFlies \cite{de2021flexible}, in a controlled indoor environment. These drones use standard Raspberry Pi Zeros as their main computer, meaning they have relatively low capabilities, and are therefore well suited to verify our algorithm. We designed a static topology with one drone acting as a base station and the 4 others acting as agents. The radiation source (red cone) in Fig. \ref{cogniflyExperiment} is positioned to make one of the paths more dangerous, allowing us to verify if data is routed in the longer but safer path. The communication range is set to 1.5m, which is a realistic but restrictive value for drones equipped with WiFi capabilities. The topology is illustrated in Fig. \ref{cogniflyGraph}. To assess \ac{RASS}' performance, we compared it with a hop-count algorithm over 3 runs.
 
 \begin{figure}[htbp]
     \centering
@@ -555,7 +542,9 @@ metrics on physical robots to confirm the real-world applicability of our system
 \end{figure}
 
 \subsection{Results}
-The reliability results of the physical experiments conducted on the drones are presented in Fig. \ref{results:physicalRelaibility}. They show that \ac{RASS} outperforms the hop-count algorithm in terms of reliability which lead to overall greater swarm storage. Even if the topology used to assess the performance of our algorithm was simple and the number of agents in the system was limited, the physical experiments confirm the real-world applicability of \ac{RASS}. Using only local interactions, it was able to choose safer paths for the data to be routed through which resulted in fewer data corruptions.
+The reliability results of the physical experiments conducted on the drones are presented in Fig. \ref{results:physicalRelaibility}. They show that \ac{RASS} outperforms the hop-count algorithm in terms of reliability by a factor of almost 2. In other words, \ac{RASS} lost much less data due to corruption issues. This lead to overall greater swarm storage. 
+
+The results obtained for the total storage capacity of the swarm are shown in \ref{results:physicalStorage}. They are somewhat less convincing, because they have a higher variance. This could be mitigated by running more simulations. However, the trend is clear: even by accounting for large variance, \ac{RASS} outperforms the benchmark. In a realistic interpretation of the data, \ac{RASS} achieved a total storage capacity of nearly double that of the hop count algorithm, which is coherent with the results obtained for the reliability.
 
 \begin{figure}[htbp]
 	\centering
@@ -564,11 +553,22 @@ The reliability results of the physical experiments conducted on the drones are 
     \label{results:physicalRelaibility}
 \end{figure}
 
+\begin{figure}[htbp]
+	\centering
+    \includegraphics[width=\columnwidth]{figures/dora_mesh/storage.png}
+    \caption[RASS physical storage]{Evolution of storage over time on the the physical experiments}
+    \label{results:physicalStorage}
+\end{figure}
+
+Even if the topology used to assess the performance of our algorithm was simple and the number of agents in the system was limited, the physical experiments confirm the real-world applicability of \ac{RASS}. Using only local interactions, it was able to choose safer paths for the data to be routed through which resulted in fewer data corruptions.
+
+\FloatBarrier
+
 \section{Conclusion}
 \label{conclusion}
 
-We presented \ac{RASS}, a Risk-Aware Swarm Storage system in which a swarm of robots can collectively store data on strategically chosen members. This choice is made without central coordination and is purely based on local information shared between the robots. This information is simply composed of risk measurements and topological distance from a robot to a base station, and a used to determine a robot's fitness to store data as well as to establish the most reliable and fast route towards the base station.
+We presented \ac{RASS}, a Risk-Aware Swarm Storage system in which a swarm of robots can collectively store data on strategically chosen members. This choice is made without central coordination and is purely based on local information shared between the robots. This information is simply composed of risk measurements and topological distance from a robot to a base station, and is used to determine a robot's fitness to store data as well as to establish the most reliable and fast route towards the base station.
 
-We show in our experiments that \ac{RASS} largely outperforms a hop-count-based solution as well as a virtual stigmergy in terms of reliability and total swarm storage capacity, while only being slightly slower in terms of percolation speed compared to the hop-count-based algorithm. \ac{RASS} showed good scalability in physics-based experiments as it repeatedly performed well with a large number of robots. It also performed well in experiments on physical robots.
+We show in our experiments that \ac{RASS} largely outperforms a hop-count based solution as well as a virtual stigmergy in terms of reliability and total swarm storage capacity, while only being slightly slower in terms of percolation speed compared to the hop-count-based algorithm. \ac{RASS} showed good scalability in physics-based experiments as it repeatedly performed well with a large number of robots. It also performed well in experiments on physical robots.
 
- A possible improvement for the system could be to use a Kalman Filter \cite{kalman1960new} to eliminate outliers in radiation measurement which can arise due to sensor imprecision. More generally, an interesting direction for future work could be to conduct experiments in more diverse scenarios, for example in search and rescue applications where image storage and processing is required, therefore increasing the system's workload.
+ A possible improvement for the system could be to use a Kalman Filter \cite{kalman1960new} to eliminate outliers in radiation measurement which can arise due to sensor imprecision. Also, while \ac{RASS} considered the risk to which robots are subjected, it would be interesting to study the impact of how risk affects the communication links between them. More generally, an interesting direction for future work could be to conduct experiments in more diverse scenarios, for example in search and rescue applications where image storage and processing is required, therefore increasing the system's workload.
