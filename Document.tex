@@ -61,10 +61,11 @@
 \usepackage[ruled,vlined]{algorithm2e}
 \usepackage{amsfonts}
 \usepackage{bm}
-\usepackage[labelfont=bf]{caption}
-\captionsetup{belowskip=0pt}
-\captionsetup[figure]{font=footnotesize}
-\usepackage{subcaption}
+\usepackage{subfigure}
+% \usepackage[labelfont=bf]{caption}
+% \captionsetup{belowskip=0pt}
+% \captionsetup[figure]{font=footnotesize}
+% \usepackage{subcaption}
 \usepackage{enumerate}
 \let\labelindent\relax
 \usepackage{enumitem}
@@ -121,6 +122,22 @@
   hidelinks,
   linktoc=all
 }
+%% Commandes pour inclure du texte devant les tables des figures/tableaux
+% \usepackage{tocloft}
+% \renewcommand{\cftloftitlefont}{\hspace*{\fill}\bfseries\large}
+% \renewcommand{\cftafterloftitle}{\hspace*{\fill}}
+
+% \renewcommand{\cftlottitlefont}{\hspace*{\fill}\bfseries\large}
+% \renewcommand{\cftafterlottitle}{\hspace*{\fill}}
+
+% \renewcommand{\cfttoctitlefont}{\hspace*{\fill}\bfseries\large}
+% \renewcommand{\cftaftertoctitle}{\hspace*{\fill}}
+
+% \renewcommand{\cftfigfont}{Figure }
+% \renewcommand{\cfttabfont}{Table }
+% \renewcommand{\cftchapfont}{CHAPTER }
+% \renewcommand\cftfigindent{0pt}
+% \renewcommand\cfttabindent{0pt}
 %%
 %% Il y a un document par chapitre du mémoire.
 %%
@@ -193,6 +210,8 @@ a été dûment accepté\ifthenelse{\equal{\monDiplome}{M}}{}{e} par le jury d'e
 }{
 	\renewcommand\listtablename{LISTE DES TABLEAUX}
 }\listoftables
+\newpage
+
 %%
 %% Table des figures.
 \ifthenelse{\equal{\Langue}{english}}{

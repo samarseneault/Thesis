@@ -1,4 +1,4 @@
-\Chapter{Risk Aware Exploration}\label{sec:Theme2}
+\Chapter{RISK-AWARE EXPLORATION}\label{sec:Theme2}
 
 In this chapter, the article in which \ac{DORA} was first described \cite{vielfaure2021dora} is summarized. \ac{DORA} was created in the context of this thesis and is closely related to the theme of risk awareness in swarm robotics. To avoid redundancy and to make this chapter more concise, the related works and background necessary to understand this system are presented in Ch. \ref{sec:RevLitt}. Figures in this chapter are taken from the article with permission from the authors.
 
@@ -17,7 +17,7 @@ As we found no existing decentralized risk-aware exploration algorithm, we sough
 \section{System Model}
 \label{dora_system_model}
 
-The motivation for including risk awareness in a distributed exploration algorithm can be seen in Fig. \ref{risk_unaware}, where failures lead to decreasing performance over time. Conversely, in Fig. \ref{risk_aware}, avoiding dangerous areas reduces failures and maintains exploration efficiency. In order to design our system, we modelled the environment as a 2D grid ($E \subset \mathbb{Z}^2$) in which agents $a_i \in A$ carry out their task. Several design considerations shaped \ac{DORA}. They are summarized here, and more details can be found in the referenced paper.
+The motivation for including risk awareness in a distributed exploration algorithm can be seen in Figs. \ref{risk_unaware_a} and \ref{risk_unaware_b}, where failures lead to decreasing performance over time. Conversely, in Figs. \ref{risk_aware_a} to \ref{risk_aware_d}, avoiding dangerous areas reduces failures and maintains exploration efficiency. In order to design our system, we modelled the environment as a 2D grid ($E \subset \mathbb{Z}^2$) in which agents $a_i \in A$ carry out their task. Several design considerations shaped \ac{DORA}. They are summarized here, and more details can be found in the referenced paper.
 
 \FloatBarrier
 
@@ -60,52 +60,88 @@ where $\bm{\hat{n}}$ is the unit form of $\bm{n}$. The exploration gradient $\bm
 where $\alpha, \beta, \gamma$ are parameters related to risk avoidance, exploration gain and obstacle avoidance control. The latter is added from robustness and inspired from \cite{shahriari2018lightweight}.
 
 \begin{figure*}
-     \centering
-     \begin{subfigure}{0.45\textwidth}
-         \centering
-         \includegraphics[width=\textwidth]{figures/dora_explorer/risk_aware_b.png}
-         \caption{}
-         \label{risk_unaware_a}
-     \end{subfigure}
-     \begin{subfigure}{0.45\textwidth}
-         \centering
-         \includegraphics[width=\textwidth]{figures/dora_explorer/risk_unaware_a.png}
-         \caption{}
-         \label{risk_unaware_b}
-     \end{subfigure}
-        \caption[Risk-unaware exploration intuition]{Exploration without risk awareness. Fig. \ref{risk_unaware_a}: Robots start exploring but are unable to sense environmental radiation. The only driving force of the algorithm is exploring new cells. Fig. \ref{risk_unaware_b}: Robots fail because they do not discriminate between safe and dangerous cells. Exploration is carried out by fewer robots. Exploration efficiency drastically decreases and large areas of the environment remain uncovered.}
-        \label{risk_unaware}
+     \includegraphics[width=16cm]{figures/dora_explorer/risk_aware_b.png}
+     \caption[Risk-unawareness intuition (1)]{Robots start exploring but are unable to sense environmental radiation. The only driving force of the algorithm is exploring new cells.}
+     \label{risk_unaware_a}
 \end{figure*}
 
-\begin{figure*}[htbp]
-    \centering
-    \begin{subfigure}{0.45\textwidth}
-         \centering
-         \includegraphics[width=\textwidth]{figures/dora_explorer/risk_aware_a.png}
-         \caption{}
-         \label{risk_aware_a}
-    \end{subfigure}
-    \begin{subfigure}{0.45\textwidth}
-         \centering
-         \includegraphics[width=\textwidth]{figures/dora_explorer/risk_aware_b.png}
-         \caption{}
-         \label{risk_aware_b}
-    \end{subfigure}
-    \begin{subfigure}{0.45\textwidth}
-         \centering
-         \includegraphics[width=\textwidth]{figures/dora_explorer/risk_aware_c.png}
-         \caption{}
-         \label{risk_aware_c}
-    \end{subfigure}
-    \begin{subfigure}{0.45\textwidth}
-         \centering
-         \includegraphics[width=\textwidth]{figures/dora_explorer/risk_aware_d.png}
-         \caption{}
-         \label{risk_aware_d}
-    \end{subfigure}
-        \caption[Risk-aware exploration intuition]{Risk aware exploration intuition. Fig. \ref{risk_aware_a}: Robots start exploring a hazardous environment. Fig. \ref{risk_aware_b}: A grid is formed. When a new cell from this grid is explored, the sensed radiation is used to update the \ac{DBM}. Fig. \ref{risk_aware_c}: The cells have been mostly covered by the robots. Fig. \ref{risk_aware_d}: Only cells believed to be too dangerous remain unexplored.}
-    \label{risk_aware}
+\begin{figure*}
+     \includegraphics[width=16cm]{figures/dora_explorer/risk_aware_b.png}
+     \caption[Risk-unawareness intuition (2)]{Robots fail because they do not discriminate between safe and dangerous cells. Exploration is carried out by fewer robots. Exploration efficiency drastically decreases and large areas of the environment remain uncovered.}
+     \label{risk_unaware_b}
 \end{figure*}
+
+% \begin{figure*}
+%      \centering
+%      \begin{subfigure}{}
+%          \centering
+%          \includegraphics[width=16cm]{figures/dora_explorer/risk_aware_b.png}
+%          \caption{}
+%          \label{risk_unaware_a}
+%      \end{subfigure}
+%      \begin{subfigure}{}
+%          \centering
+%          \includegraphics[width=16cm]{figures/dora_explorer/risk_unaware_a.png}
+%          \caption{}
+%          \label{risk_unaware_b}
+%      \end{subfigure}
+%         \caption[Risk-unaware exploration intuition]{Exploration without risk awareness. Fig. \ref{risk_unaware_a}: Robots start exploring but are unable to sense environmental radiation. The only driving force of the algorithm is exploring new cells. Fig. \ref{risk_unaware_b}: Robots fail because they do not discriminate between safe and dangerous cells. Exploration is carried out by fewer robots. Exploration efficiency drastically decreases and large areas of the environment remain uncovered.}
+%         \label{risk_unaware}
+% \end{figure*}
+
+\begin{figure*}
+     \includegraphics[width=16cm]{figures/dora_explorer/risk_aware_a.png}
+     \caption[Risk-awareness intuition (1)]{Robots start exploring a hazardous environment.}
+     \label{risk_aware_a}
+\end{figure*}
+
+\begin{figure*}
+     \includegraphics[width=16cm]{figures/dora_explorer/risk_aware_b.png}
+     \caption[Risk-awareness intuition (2)]{A grid is formed. When a new cell from this grid is explored, the sensed radiation is used to update the \ac{DBM}.}
+     \label{risk_aware_b}
+\end{figure*}
+
+\begin{figure*}
+     \includegraphics[width=16cm]{figures/dora_explorer/risk_aware_c.png}
+     \caption[Risk-awareness intuition (3)]{The cells have been mostly covered by the robots.}
+     \label{risk_aware_c}
+\end{figure*}
+
+\begin{figure*}
+     \includegraphics[width=16cm]{figures/dora_explorer/risk_aware_d.png}
+     \caption[Risk-awareness intuition (4)]{Only cells believed to be too dangerous remain unexplored.}
+     \label{risk_aware_d}
+\end{figure*}
+
+% \begin{figure*}[htbp]
+%     \centering
+%     \begin{subfigure}{}
+%          \centering
+%          \includegraphics[width=\textwidth]{figures/dora_explorer/risk_aware_a.png}
+%          \caption{}
+%          \label{risk_aware_a}
+%     \end{subfigure}
+%     \begin{subfigure}{}
+%          \centering
+%          \includegraphics[width=\textwidth]{figures/dora_explorer/risk_aware_b.png}
+%          \caption{}
+%          \label{risk_aware_b}
+%     \end{subfigure}
+%     \begin{subfigure}{}
+%          \centering
+%          \includegraphics[width=\textwidth]{figures/dora_explorer/risk_aware_c.png}
+%          \caption{}
+%          \label{risk_aware_c}
+%     \end{subfigure}
+%     \begin{subfigure}{}
+%          \centering
+%          \includegraphics[width=\textwidth]{figures/dora_explorer/risk_aware_d.png}
+%          \caption{}
+%          \label{risk_aware_d}
+%     \end{subfigure}
+%         \caption[Risk-aware exploration intuition]{Risk aware exploration intuition. Fig. \ref{risk_aware_a}: Robots start exploring a hazardous environment. Fig. \ref{risk_aware_b}: A grid is formed. When a new cell from this grid is explored, the sensed radiation is used to update the \ac{DBM}. Fig. \ref{risk_aware_c}: The cells have been mostly covered by the robots. Fig. \ref{risk_aware_d}: Only cells believed to be too dangerous remain unexplored.}
+%     \label{risk_aware}
+% \end{figure*}
 
 Finally, to ensure scalability, we made sure \ac{DORA}'s computational and communication costs remained low. They are represented by $C(A, \nu, E)$ and $D(A, \nu, E)$ where $\nu$ is the neighborhood and they are both bounded by $\Theta(|\nu|)$ because of the nature of the algorithm and of the virtual stigmergy.
 
@@ -121,86 +157,152 @@ The second step was the physical experiments. We ran them on 5 robots with fewer
 \section{Results}
 The following shows the average results obtained in the simulation runs as well as those from physical experiment runs.
 
-Fig. \ref{results:dora_explored} shows that \ac{DORA} attains similar terrain coverage to \ac{FBE}. Moreover, the performance gap between the two reduces as $N$ increases, showing good scalability from \ac{DORA}. Both algorithms outperform the random walk one by far. Interestingly, \ac{DORA} covered more cells than \ac{FBE} in physical experiments. This is probably because the small size of the arena presented a pathological case for \ac{FBE}. 
+Figs. \ref{results:explored10} to \ref{results:cells_explored_physical} show that \ac{DORA} attains similar terrain coverage to \ac{FBE}. Moreover, the performance gap between the two reduces as $N$ increases, showing good scalability from \ac{DORA}. Both algorithms outperform the random walk one by far. Interestingly, \ac{DORA} covered more cells than \ac{FBE} in physical experiments. This is probably because the small size of the arena presented a pathological case for \ac{FBE}. 
 
 \begin{figure*}
-    \centering
-    \begin{subfigure}{0.45\textwidth}
-        \includegraphics[width=\textwidth]{figures/dora_explorer/explored_10.png}
-        \caption{N=10 robots}
+    \includegraphics[width=16cm]{figures/dora_explorer/explored_10.png}
+        \caption[DORA cell exploration performance (N=10 robots)]{DORA cell exploration performance (N=10 robots)}
         \label{results:explored10}
-    \end{subfigure}
-    \begin{subfigure}{0.45\textwidth}
-        \includegraphics[width=\textwidth]{figures/dora_explorer/explored_15.png}
-        \caption{N=15 robots}
+\end{figure*}
+
+\begin{figure*}
+    \includegraphics[width=16cm]{figures/dora_explorer/explored_15.png}
+        \caption[DORA cell exploration performance (N=15 robots)]{DORA cell exploration performance (N=15 robots)}
         \label{results:explored15}
-    \end{subfigure}
-    \begin{subfigure}{0.45\textwidth}
-        \includegraphics[width=\textwidth]{figures/dora_explorer/explored_20.png}
-        \caption{N=20 robots}
+\end{figure*}
+
+\begin{figure*}
+    \includegraphics[width=16cm]{figures/dora_explorer/explored_20.png}
+        \caption[DORA cell exploration performance (N=20 robots)]{DORA cell exploration performance (N=20 robots)}
         \label{results:explored20}
-    \end{subfigure}
-    \begin{subfigure}{0.45\textwidth}
-        \includegraphics[width=\textwidth]{figures/dora_explorer/explored_real.png}
-        \caption{N=5 physical robots}
+\end{figure*}
+
+\begin{figure*}
+    \includegraphics[width=16cm]{figures/dora_explorer/explored_real.png}
+        \caption[DORA cell exploration performance (N=5 physical robots)]{DORA cell exploration performance (N=5 physical robots)}
         \label{results:cells_explored_physical}
-    \end{subfigure}
-    \caption[DORA cell exploration performance]{Performance comparison of \ac{DORA}, \ac{FBE} and random walk for number of explored cells over time.  Fig. \ref{results:explored10}, \ref{results:explored15}, \ref{results:explored20} are for simulations; Fig. \ref{results:cells_explored_physical} is for physical experiments.}
-    \label{results:dora_explored}
 \end{figure*}
 
-Where \ac{DORA} truly shows its worth is in Fig. \ref{results:dora_active}, in which the number of active robots over time is presented. Indeed, in every experiment scenario, \ac{DORA} experienced far fewer robot failures than both benchmark algorithms. As for terrain coverage, \ac{DORA}'s performance improves with respect to the other algorithms as the number of robots involved increases. This further shows our algorithm's scalability.
+% \begin{figure*}
+%     \centering
+%     \begin{subfigure}{0.45\textwidth}
+%         \includegraphics[width=\textwidth]{figures/dora_explorer/explored_10.png}
+%         \caption{N=10 robots}
+%         \label{results:explored10}
+%     \end{subfigure}
+%     \begin{subfigure}{0.45\textwidth}
+%         \includegraphics[width=\textwidth]{figures/dora_explorer/explored_15.png}
+%         \caption{N=15 robots}
+%         \label{results:explored15}
+%     \end{subfigure}
+%     \begin{subfigure}{0.45\textwidth}
+%         \includegraphics[width=\textwidth]{figures/dora_explorer/explored_20.png}
+%         \caption{N=20 robots}
+%         \label{results:explored20}
+%     \end{subfigure}
+%     \begin{subfigure}{0.45\textwidth}
+%         \includegraphics[width=\textwidth]{figures/dora_explorer/explored_real.png}
+%         \caption{N=5 physical robots}
+%         \label{results:cells_explored_physical}
+%     \end{subfigure}
+%     \caption[DORA cell exploration performance]{Performance comparison of \ac{DORA}, \ac{FBE} and random walk for number of explored cells over time.  Fig. \ref{results:explored10}, \ref{results:explored15}, \ref{results:explored20} are for simulations; Fig. \ref{results:cells_explored_physical} is for physical experiments.}
+%     \label{results:dora_explored}
+% \end{figure*}
+
+Where \ac{DORA} truly shows its worth is in Figs. Figs. \ref{results:failures10} to \ref{results:active_robots_physical}, in which the number of active robots over time for each value of $N$ is presented. Indeed, in every experiment scenario, \ac{DORA} experienced far fewer robot failures than both benchmark algorithms. As for terrain coverage, \ac{DORA}'s performance improves with respect to the other algorithms as the number of robots involved increases. This further shows our algorithm's scalability.
 
 \begin{figure*}
-    \centering
-    \begin{subfigure}{0.45\textwidth}
-        \includegraphics[width=\textwidth]{figures/dora_explorer/activerobots_10.png}
-        \caption{N=10 robots}
+    \includegraphics[width=16cm]{figures/dora_explorer/activerobots_10.png}
+        \caption[DORA survival performance (N=10 robots)]{DORA survival performance (N=10 robots)}
         \label{results:failures10}
-    \end{subfigure}
-    \begin{subfigure}{0.45\textwidth}
-        \includegraphics[width=\textwidth]{figures/dora_explorer/activerobots_15.png}
-        \caption{N=15 robots}
-        \label{results:failures15}
-    \end{subfigure}
-    \begin{subfigure}{0.45\textwidth}
-        \includegraphics[width=\textwidth]{figures/dora_explorer/activerobots_20.png}
-        \caption{N=20 robots}
-        \label{results:failures20}
-    \end{subfigure}
-    \begin{subfigure}{0.45\textwidth}
-        \includegraphics[width=\textwidth]{figures/dora_explorer/activerobots_real.png}
-        \caption{N=5 physical robots}
-        \label{results:active_robots_physical}
-    \end{subfigure}
-    \caption[DORA survival performance]{Performance comparison of \ac{DORA}, \ac{FBE} and random walk for number of active robots over time. Fig. \ref{results:failures10}, \ref{results:failures15}, \ref{results:failures20} are for simulations; Fig. \ref{results:active_robots_physical} is for physical experiments.} 
-    \label{results:dora_active}
 \end{figure*}
-
-Intuition for how \ac{DORA} results from Fig.\ref{results:dora_explored} and Fig. \ref{results:dora_active} are related can be gained by observing Fig. \ref{results:belief}. Whereas \ac{FBE} visited the areas around the radiation sources (as can be seen by the cells with a high radiation level), \ac{DORA} avoided them. This results in a slightly lower exploration coverage, but in a much lower failure rate.
 
 \begin{figure*}
-    \centering
-    \begin{subfigure}{0.45\textwidth}
-        \includegraphics[width=\textwidth]{figures/dora_explorer/heatmap_random.png}
-        \caption{Random walk}
-        \label{results:beliefrandom}
-    \end{subfigure}
-    \begin{subfigure}{0.45\textwidth}
-        \includegraphics[width=\textwidth]{figures/dora_explorer/heatmap_frontier.png}
-        \caption{\ac{FBE}}
-        \label{results:belieffrontier}
-    \end{subfigure}
-    \begin{subfigure}{0.45\textwidth}
-        \includegraphics[width=\textwidth]{figures/dora_explorer/heatmap_dora.png}
-        \caption{\ac{DORA}}
-        \label{results:beliefdora}
-    \end{subfigure}
-    \caption[DORA radiation belief maps]{Examples of radiation belief maps of the 20x20m environment for each exploration algorithm of one specific simulation. Blank cells are unvisited areas, red stars are the point radiation sources and grey squares are the randomly generated obstacles.}
-    \label{results:belief}
+    \includegraphics[width=16cm]{figures/dora_explorer/activerobots_15.png}
+        \caption[DORA survival performance (N=15 robots)]{DORA survival performance (N=15 robots)}
+        \label{results:failures15}
 \end{figure*}
 
-In Fig. \ref{results:communicationCosts}, we can see the amount of data exchanged by robots in the simulations conducted with \ac{DORA} and \ac{FBE}. The takeaway is that \ac{DORA} outperforms \ac{FBE} by a significant margin for this metric, and that communication costs are aligned with the theoretical values from \ref{dora_system_model}. This metric was not calculated for the random walk algorithm as it does not require any coordination nor communication. It was not measured in physical experiments.
+\begin{figure*}
+    \includegraphics[width=16cm]{figures/dora_explorer/activerobots_20.png}
+        \caption[DORA survival performance (N=20 robots)]{DORA survival performance (N=20 robots)}
+        \label{results:failures20}
+\end{figure*}
+
+\begin{figure*}
+    \includegraphics[width=16cm]{figures/dora_explorer/activerobots_real.png}
+        \caption[DORA survival performance (N=5 physical robots)]{DORA survival performance (N=5 physical robots)}
+        \label{results:active_robots_physical}
+\end{figure*}
+
+% \begin{figure*}
+%     \centering
+%     \begin{subfigure}{0.45\textwidth}
+%         \includegraphics[width=\textwidth]{figures/dora_explorer/activerobots_10.png}
+%         \caption{N=10 robots}
+%         \label{results:failures10}
+%     \end{subfigure}
+%     \begin{subfigure}{0.45\textwidth}
+%         \includegraphics[width=\textwidth]{figures/dora_explorer/activerobots_15.png}
+%         \caption{N=15 robots}
+%         \label{results:failures15}
+%     \end{subfigure}
+%     \begin{subfigure}{0.45\textwidth}
+%         \includegraphics[width=\textwidth]{figures/dora_explorer/activerobots_20.png}
+%         \caption{N=20 robots}
+%         \label{results:failures20}
+%     \end{subfigure}
+%     \begin{subfigure}{0.45\textwidth}
+%         \includegraphics[width=\textwidth]{figures/dora_explorer/activerobots_real.png}
+%         \caption{N=5 physical robots}
+%         \label{results:active_robots_physical}
+%     \end{subfigure}
+%     \caption[DORA survival performance]{Performance comparison of \ac{DORA}, \ac{FBE} and random walk for number of active robots over time. Fig. \ref{results:failures10}, \ref{results:failures15}, \ref{results:failures20} are for simulations; Fig. \ref{results:active_robots_physical} is for physical experiments.} 
+%     \label{results:dora_active}
+% \end{figure*}
+
+Intuition for how \ac{DORA} results from Figs.\ref{results:explored10} to \ref{results:cells_explored_physical} and Figs. \ref{results:failures10} to \ref{results:active_robots_physical} are related can be gained by observing Figs. \ref{results:beliefrandom} to \ref{results:beliefdora}. These three figures are examples of radiation belief maps of the 20x20m environment for each exploration algorithm of one specific simulation. Blank cells are unvisited areas, red stars are the point radiation sources and grey squares are the randomly generated obstacles. Whereas \ac{FBE} visited the areas around the radiation sources (as can be seen by the cells with a high radiation level), \ac{DORA} avoided them. This results in a slightly lower exploration coverage, but in a much lower failure rate.
+
+\begin{figure*}
+    \includegraphics[width=16cm]{figures/dora_explorer/heatmap_random.png}
+    \caption{Random walk heatmap}
+    \label{results:belieffrontier}
+\end{figure*}
+
+\begin{figure*}
+    \includegraphics[width=16cm]{figures/dora_explorer/heatmap_frontier.png}
+    \caption{\ac{FBE} heatmap}
+    \label{results:beliefrandom}
+\end{figure*}
+
+\begin{figure*}
+    \includegraphics[width=16cm]{figures/dora_explorer/heatmap_dora.png}
+    \caption{\ac{DORA} heatmap}
+    \label{results:beliefdora}
+\end{figure*}
+
+% \begin{figure*}
+%     \centering
+%     \begin{subfigure}{0.45\textwidth}
+%         \includegraphics[width=\textwidth]{figures/dora_explorer/heatmap_random.png}
+%         \caption{Random walk}
+%         \label{results:beliefrandom}
+%     \end{subfigure}
+%     \begin{subfigure}{0.45\textwidth}
+%         \includegraphics[width=\textwidth]{figures/dora_explorer/heatmap_frontier.png}
+%         \caption{\ac{FBE}}
+%         \label{results:belieffrontier}
+%     \end{subfigure}
+%     \begin{subfigure}{0.45\textwidth}
+%         \includegraphics[width=\textwidth]{figures/dora_explorer/heatmap_dora.png}
+%         \caption{\ac{DORA}}
+%         \label{results:beliefdora}
+%     \end{subfigure}
+%     \caption[DORA radiation belief maps]{Examples of radiation belief maps of the 20x20m environment for each exploration algorithm of one specific simulation. Blank cells are unvisited areas, red stars are the point radiation sources and grey squares are the randomly generated obstacles.}
+%     \label{results:belief}
+% \end{figure*}
+
+In Fig. \ref{results:communicationCosts}, we can see the amount of data exchanged by robots in the simulations conducted with \ac{DORA} and \ac{FBE}. The takeaway is that \ac{DORA} is outperformed by \ac{FBE} for this metric, and that communication costs are aligned with the theoretical values from \ref{dora_system_model}. This difference in bandwidth usage is explained by the fact that our implementation of \ac{FBE} uses one stigmergy, while \ac{DORA} uses two. This metric was not calculated for the random walk algorithm as it does not require any coordination nor communication. It was not measured in physical experiments.
 
 \begin{figure}[htbp]
     \centering

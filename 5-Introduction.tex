@@ -35,7 +35,7 @@ Distributed systems imply multiple connected devices which interact to perform a
 
 Decentralized systems also involve many connected devices which share a common goal. However, they are not coordinated by a central authority; cooperation happens only between peers. This is the case for BitTorrent, which relies on a peer-to-peer architecture in which no centralized activity is involved \cite{zhang2010unraveling}.
 
-In short, a decentralized system is distributed by nature, but the opposite is not necessarily true.
+A decentralized system is distributed by nature, but the opposite is not necessarily true.
 
 \subsection{Scalability}
 Scalability can be defined as the ability of a system to adapt to changing amounts of work. In the context of swarm robotics, these can fit in two categories. First, additional loads can result from a changing (increasing) number of agents involved in the system, which necessarily impacts its performance because of communication overhead, among other things. Second, a change in burden may happen because of evolving tasks. In any case, both must be considered when designing robust swarm applications.
@@ -88,6 +88,23 @@ Because scalability is such an important characteristic of swarm systems, it is 
 %%
 \section{Research Objectives}  % 0.5 page
 The broad objective pursued in this research is to introduce risk awareness into swarm robotics. To do so in a significant way, \ac{RASS} and \ac{DORA} need to collectively address all the problem elements previously presented. Some of the research objectives are common to both. For instance, they must reduce the failure rate comparatively to their related state-of-the-art applications. Moreover, they must show that this is achievable by relying solely on local communication information processing. Additionally, they must be conceived with both limited resources and scalability in mind. Some of the objectives are not shared. First, \ac{RASS} needs to perform well in terms of storage efficiency as well as data transmission speeds. Second, \ac{DORA} has to exhibit good exploration coverage.
+
+For \ac{RASS}, the specific objectives are the following:
+\begin{enumerate}
+    \item Have a lower data corruption rate than competing algorithms;
+    \item Be entirely decentralized and rely on local information only;
+    \item Work well on resource-limited platforms;
+    \item Obtain a better storage efficiency in comparison to benchmark algorithms;
+    \item Achieve similar transmission speeds compared to benchmark algorithms.
+\end{enumerate}
+
+For \ac{DORA}, the specific objectives are slightly different:
+\begin{enumerate}
+    \item Have a lower robot failure rate than competing algorithms;
+    \item Be entirely decentralized and rely on local information only;
+    \item Work well on resource-limited platforms;
+    \item Achieve a better or similar terrain exploration coverage than benchmark algorithms.
+\end{enumerate}
 
 This thesis therefore seeks to elaborate on how both algorithms comply with the set objectives by detailing their implementation as well as by verifying that they respect the desired properties through thorough experimentation.
 

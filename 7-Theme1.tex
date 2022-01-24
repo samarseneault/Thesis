@@ -1,4 +1,4 @@
-\Chapter{Risk Aware Swarm Storage}\label{sec:Theme1}
+\Chapter{RISK-AWARE SWARM STORAGE}\label{sec:Theme1}
 
 In robotics, data acquisition often plays a key part in
 unknown environment exploration. For example, storing information about the topography of the explored terrain or the natural dangers in the environment can
@@ -203,8 +203,16 @@ Risk is assumed to be dynamic, meaning that the position of the point radiation 
 For example, radiation can spread to new areas if radioactive particles are
 transported by wind. It is important to account for the dynamic nature of risk as it gives 
 the system the capability to adapt to changing environments. We achieve adaptability by 
-having each agent sense the radiation at every time step at its current position. The 
-perceived intensity decays exponentially (with $\lambda$ as a decay parameter) as the 
+having each agent sense the radiation at every time step at its current position, which creates a step-by-step estimate of the risk at each robot's location, as shown in Fig.~\ref{rass_risk_measurement}.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\columnwidth]{figures/dora_mesh/rass-risk.png}
+    \caption[RASS Risk Measurement]{An example of risk values measured and held by robots at a given time step.}
+    \label{rass_risk_measurement}
+\end{figure}
+
+The perceived intensity decays exponentially (with $\lambda$ as a decay parameter) as the 
 Euclidean distance $\rho(\bm{x}_i)$ between $\bm{s}_j$ and $\bm{x}_i$ increases. The
 total perceived radiation level by a robot $a_i$ at position $\bm{x}_i \in E$ is given by:
 
@@ -226,7 +234,7 @@ corrupted due to the combined effect of radiation sources also follows a Bernoul
 distribution given by:
 
 \begin{equation}
-    \mathbb{P}(c_i = 1 | S) \sim \mathcal{B}(r(\bm{x}_i)) = 1 - \prod_{\bm{s_j} \in S} \mathbb{P}(c_i = 1 | \bm{s}_j)
+    \mathbb{P}(c_i = 1 | S) \sim \mathcal{B}(r(\bm{x}_i)) = 1 - \prod_{\bm{s_j} \in S}  1 - \mathbb{P}(c_i = 1 | \bm{s}_j)
     \label{eq:failure}
 \end{equation}
 
@@ -283,7 +291,7 @@ focus of this work, the routing table held by each node only contains the minima
 between its neighbours and the base station and can therefore
 be implemented with a hash table. Therefore, given the existence of at least one (multi-hop) path between any node and the base station, we can establish a routing table based on hop count. The process to construct and periodically update this 
 table involves exchanging messages between the base station and the nodes as suggested by 
-\cite{abdullah2015detecting}, as we implement in Alg.~\ref{alg:routing}. The general idea is that the base station emits a 0 hop message periodically, and whenever a node receives such a message (either from the base station or from another neighbour), it re-emits the message with an incremented count. Note that a node will only emit the message based on the smallest hop count it received; these counts are stored in the previously mentioned hash table. This percolation process from the station to the nodes creates a hop count gradient.
+\cite{abdullah2015detecting}, as we implement in Alg.~\ref{alg:routing}. The general idea is that the base station emits a 0 hop message periodically, and whenever a node receives such a message (either from the base station or from another neighbour), it re-emits the message with an incremented count. Note that a node will only emit the message based on the smallest hop count it received; these counts are stored in the previously mentioned hash table. This percolation process from the station to the nodes creates a hop count gradient. An example of such gradient can be found in Fig.~\ref{rass_hop_count}.
 Assuming a message can only be forwarded to an immediate neighbour within a given time 
 step, the required time to build the routing table in a connected graph is bounded by 
 $\Omega(1)$ and $\mathcal{O}(|A|)$ as it takes at most $|A|$ steps to send a message from 
@@ -308,6 +316,13 @@ $\mathcal{O}(log|A|)$ steps because of the network's depth. We implement message
 \caption{Building/Updating the Routing Table}
 \label{alg:routing}
 \end{algorithm}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\columnwidth]{figures/dora_mesh/rass-hop-count.png}
+    \caption[RASS Hop Count]{An example of minimal hop count towards the base station (bottom right) values held by robots after building the routing table.}
+    \label{rass_hop_count}
+\end{figure}
 
 \subsubsection{Potential-Based Percolation}
 Our risk-aware storage system draws inspiration from 
@@ -341,8 +356,7 @@ itself a potential $\phi_i$ based on its fitness to store data, given by:
 where $\mathcal{N}$ and $T$ are the set of $i$'s neighbours and the fitness threshold, 
 respectively. The latter's purpose is to ensure that data is transferred only when the 
 neighbours' max fitness is significantly higher than $\phi_i$ to avoid instability and 
-overhead which would result from frequent and inefficient transfers. This fitness policy  c
-auses data to naturally percolate along the edges towards the base station because nodes 
+overhead which would result from frequent and inefficient transfers. This fitness policy causes data to naturally percolate along the edges towards the base station because nodes 
 with a higher potential are both closer to it and
 located in safer areas. When necessary, data is evicted using a \ac{LRU} policy and transmitted to the fittest neighbour.
 
@@ -359,7 +373,7 @@ We ran extensive simulations in a physics-based simulator, ARGoS
 hardware issues on the conceptual validity of our system and also to
 verify that it scales well to large swarm sizes. We executed 30 simulation
 runs with 100 robots for each type of experiment to reach results
-with low uncertainty. The robots are placed within a 20m by 20m arena and their communication radius $R$ is set to 3m. Three (3) radiation sources are randomly distributed in the environment around the origin. The base station is located in a corner of the arena and its storage capacity is assumed to be infinite. 
+with low uncertainty. We used a 20m x 20m arena and a communication radius $R=3$m. Three radiation sources are randomly distributed in the environment around the origin. The base station is located in a corner of the arena and its storage capacity is assumed to be infinite. 
 
 \begin{figure}[htbp]
 	\centering
@@ -405,91 +419,167 @@ where $n_g$ and $n_l$ are respectively the amount of data generated and lost at 
 
 \subsection{Results}
 
-The results obtained in the 30 simulation runs for the static topologies (grid-like and scale-free) as well as for the dynamic topologies (Lennard-Jones potential and random walk) are presented in groups for each metric in Figs. \ref{results:rass_reliability}, \ref{results:rass_speed} and \ref{results:rass_storage}.
+The results obtained in the 30 simulation runs for the static topologies (grid-like and scale-free) as well as for the dynamic topologies (Lennard-Jones potential and random walk) are presented in groups for each metric (reliability, transmission speed and total storage capacity) in the following pages.
 
 Results show that \ac{RASS} outperforms the hop-count algorithm in terms of reliability. For the grid topology experiments, Fig. \ref{results:grid_100_reliability} shows that \ac{RASS} was more than 1.5 times as reliable as the closest benchmark. For the experiments using the scale-free topology (Fig. \ref{results:scale_100_reliability}, the results were much closer, but \ac{RASS} performed the best. The reliability obtained for the Lennard-Jones (Fig. \ref{results:lennard_100_reliability}) and the random topologies (Fig. \ref{results:random_100_reliability} were similar, as they were on average 1.4 times better than the best competitor. Because of the risk awareness component included in its fitness policy as detailed in Eq. \ref{equation:fitness}, robots do not always route the data through the shortest path to the base station. \ac{RASS} avoids the dangerous storage nodes of the system when routing data which explains the higher reliability levels displayed in Fig. \ref{results:grid_100_reliability}, Fig. \ref{results:scale_100_reliability}, Fig. \ref{results:lennard_100_reliability} and Fig. \ref{results:random_100_reliability} . This is why, on average, \ac{RASS} takes 54.89\% more time to route the data to the base station when compared to the hop-count algorithm. The shortest path might not always be the safest one; \ac{RASS} will take an alternate route if the risk associated with the shortest one is too high. This happens whenever the risk element in Eq. \ref{equation:fitness} is high enough to offset a possibly low value in the hop count term. On the other hand, the hop-count algorithm always takes the shortest path towards the base station regardless of the risk associated with it. This leads to a higher number of data losses due to corruption and an overall lower reliability. The clear outlier for all topologies is the virtual stigmergy, achieving very poor reliability figures. The reasons for this are explained further because they are also reflected by another metric.
 
+\begin{figure*}
+    \includegraphics[width=16cm]{figures/dora_mesh/grid_reliability.png}
+    \caption{RASS reliability (grid topology)}
+    \label{results:grid_100_reliability}
+\end{figure*}
+
+\begin{figure*}
+    \includegraphics[width=16cm]{figures/dora_mesh/scale_reliability.png}
+        \caption{RASS reliability (scale-free topology)}
+        \label{results:scale_100_reliability}
+\end{figure*}
+
+\begin{figure*}
+    \includegraphics[width=16cm]{figures/dora_mesh/lennard_reliability.png}
+        \caption{RASS reliability (Lennard-Jones topology)}
+        \label{results:lennard_100_reliability}
+\end{figure*}
+
 \begin{figure}
     \centering
-    \begin{subfigure}{0.48\textwidth}
-        \includegraphics[width=\textwidth]{figures/dora_mesh/grid_reliability.png}
-        \caption{Grid topology}
-        \label{results:grid_100_reliability}
-    \end{subfigure}
-    \begin{subfigure}{0.48\textwidth}
-        \includegraphics[width=\textwidth]{figures/dora_mesh/scale_reliability.png}
-        \caption{Scale-free topology}
-        \label{results:scale_100_reliability}
-    \end{subfigure}
-    \begin{subfigure}{0.48\textwidth}
-        \includegraphics[width=\textwidth]{figures/dora_mesh/lennard_reliability.png}
-        \caption{Lennard-Jones topology}
-        \label{results:lennard_100_reliability}
-    \end{subfigure}
-    \begin{subfigure}{0.48\textwidth}
-        \includegraphics[width=\textwidth]{figures/dora_mesh/random_reliability.png}
-        \caption{Random topology}
-        \label{results:random_100_reliability}
-    \end{subfigure}
-    \caption[RASS reliability]{Reliability comparison of \ac{RASS}, hop count and stigmergy in different topologies.}
-    \label{results:rass_reliability}
+    \includegraphics[width=16cm]{figures/dora_mesh/random_reliability.png}
+    \caption{RASS reliability (random topology)}
+    \label{results:random_100_reliability}
 \end{figure}
+
+% \begin{figure*}
+%     \centering
+%     \begin{subfigure}{}
+%         \includegraphics[width=17cm]{figures/dora_mesh/grid_reliability.png}
+%         \caption{Grid topology}
+%         \label{results:grid_100_reliability}
+%     \end{subfigure}%
+%     \begin{subfigure}{}
+%         \includegraphics[width=5cm]{figures/dora_mesh/scale_reliability.png}
+%         \caption{Scale-free topology}
+%         \label{results:scale_100_reliability}
+%     \end{subfigure}%
+%     \begin{subfigure}{}
+%         \includegraphics[width=5cm]{figures/dora_mesh/lennard_reliability.png}
+%         \caption{Lennard-Jones topology}
+%         \label{results:lennard_100_reliability}
+%     \end{subfigure}%
+%     \begin{subfigure}{}
+%         \includegraphics[width=5cm]{figures/dora_mesh/random_reliability.png}
+%         \caption{Random topology}
+%         \label{results:random_100_reliability}
+%     \end{subfigure}%
+%     \caption[RASS reliability]{Reliability comparison of \ac{RASS}, hop count and stigmergy in different topologies.}
+%     \label{results:rass_reliability}
+% \end{figure*}
 
 The hop count algorithm can yield faster transfer speeds for all topologies. As explained in Sec. \ref{rassSetup}, transfer speed analysis for the virtual stigmergy was excluded. In the grid topology (Fig. \ref{results:grid_100_speed}), the mean transmission time for the hop count algorithm half smaller than \ac{RASS}'s. The smaller amount of messages shown in the graph for the hop count method is explained by its poor reliability, meaning fewer messages reached their destination. Fig. \ref{results:scale_100_speed}, showing results for the scale-free topology, is where the results are closer: the distributions are almost identical, except for a small tail end in \ac{RASS}'s case Fig. The transfer speed distributions for the Lennard-Jones and the random topologies are presented in  \ref{results:lennard_100_speed} and Fig. \ref{results:random_100_speed} respectively. They are quite similar: \ac{RASS} has slower transfer speeds, but its curve is in both cases has significant overlap with the one from the hop count algorithm.
 
+\begin{figure*}
+    \includegraphics[width=16cm]{figures/dora_mesh/grid_speed.png}
+    \caption{RASS transmission speed (grid topology)}
+    \label{results:grid_100_speed}
+\end{figure*}
+
+\begin{figure*}
+    \includegraphics[width=16cm]{figures/dora_mesh/scale_speed.png}
+        \caption{RASS transmission speed (scale-free topology)}
+        \label{results:scale_100_speed}
+\end{figure*}
+
+\begin{figure*}
+    \includegraphics[width=16cm]{figures/dora_mesh/lennard_speed.png}
+        \caption{RASS transmission speed (Lennard-Jones topology)}
+        \label{results:lennard_100_speed}
+\end{figure*}
+
 \begin{figure}
     \centering
-    \begin{subfigure}{0.48\textwidth}
-        \includegraphics[width=\textwidth]{figures/dora_mesh/grid_speed.png}
-        \caption{Grid topology}
-        \label{results:grid_100_speed}
-    \end{subfigure}
-    \begin{subfigure}{0.48\textwidth}
-        \includegraphics[width=\textwidth]{figures/dora_mesh/scale_speed.png}
-        \caption{Scale-free topology}
-        \label{results:scale_100_speed}
-    \end{subfigure}
-    \begin{subfigure}{0.48\textwidth}
-        \includegraphics[width=\textwidth]{figures/dora_mesh/lennard_speed.png}
-        \caption{Lennard-Jones topology}
-        \label{results:lennard_100_speed}
-    \end{subfigure}
-    \begin{subfigure}{0.48\textwidth}
-        \includegraphics[width=\textwidth]{figures/dora_mesh/random_speed.png}
-        \caption{Random topology}
-        \label{results:random_100_speed}
-    \end{subfigure}
-    \caption[RASS transfer speeds]{Speed comparison of \ac{RASS}, hop count and stigmergy in different topologies.}
-    \label{results:rass_speed}
+    \includegraphics[width=16cm]{figures/dora_mesh/random_speed.png}
+    \caption{RASS transmission speed (random topology)}
+    \label{results:random_100_speed}
 \end{figure}
+
+% \begin{figure}
+%     \centering
+%     \begin{subfigure}{0.48\textwidth}
+%         \includegraphics[width=\textwidth]{figures/dora_mesh/grid_speed.png}
+%         \caption{Grid topology}
+%         \label{results:grid_100_speed}
+%     \end{subfigure}
+%     \begin{subfigure}{0.48\textwidth}
+%         \includegraphics[width=\textwidth]{figures/dora_mesh/scale_speed.png}
+%         \caption{Scale-free topology}
+%         \label{results:scale_100_speed}
+%     \end{subfigure}
+%     \begin{subfigure}{0.48\textwidth}
+%         \includegraphics[width=\textwidth]{figures/dora_mesh/lennard_speed.png}
+%         \caption{Lennard-Jones topology}
+%         \label{results:lennard_100_speed}
+%     \end{subfigure}
+%     \begin{subfigure}{0.48\textwidth}
+%         \includegraphics[width=\textwidth]{figures/dora_mesh/random_speed.png}
+%         \caption{Random topology}
+%         \label{results:random_100_speed}
+%     \end{subfigure}
+%     \caption[RASS transfer speeds]{Speed comparison of \ac{RASS}, hop count and stigmergy in different topologies.}
+%     \label{results:rass_speed}
+% \end{figure}
 
 The other studied metric was the evolution of the total storage capacity of the system over time. As for the other metrics, the gap between \ac{RASS},the hop count algorithm and the virtual stigmergy was most pronounced in the grid topology results presented in Fig. \ref{results:grid_100_storage}. In this situation, \ac{RASS} managed to store twice as much data as any of the benchmarks. For the scale-free topology, the results were much closer as shown in Fig. \ref{results:scale_100_storage}, but the risk-aware solution still performed the best. For the Lennard-Jones and random topologies, \ac{RASS} achieved a 45.2\% and 60\% improvement in system-wide storage capacity over the next best compared method.
 
+\begin{figure*}
+    \includegraphics[width=16cm]{figures/dora_mesh/grid_storage.png}
+    \caption{RASS storage capacity (grid topology)}
+    \label{results:grid_100_storage}
+\end{figure*}
+
+\begin{figure*}
+    \includegraphics[width=16cm]{figures/dora_mesh/scale_storage.png}
+        \caption{RASS storage capacity (scale-free topology)}
+        \label{results:scale_100_storage}
+\end{figure*}
+
+\begin{figure*}
+    \includegraphics[width=16cm]{figures/dora_mesh/lennard_storage.png}
+        \caption{RASS storage capacity (Lennard-Jones topology)}
+        \label{results:lennard_100_storage}
+\end{figure*}
+
 \begin{figure}
     \centering
-    \begin{subfigure}{0.48\textwidth}
-        \includegraphics[width=\textwidth]{figures/dora_mesh/grid_storage.png}
-        \caption{Grid topology}
-        \label{results:grid_100_storage}
-    \end{subfigure}
-    \begin{subfigure}{0.48\textwidth}
-        \includegraphics[width=\textwidth]{figures/dora_mesh/scale_storage.png}
-        \caption{Scale-free topology}
-        \label{results:scale_100_storage}
-    \end{subfigure}
-    \begin{subfigure}{0.48\textwidth}
-        \includegraphics[width=\textwidth]{figures/dora_mesh/lennard_storage.png}
-        \caption{Lennard-Jones topology}
-        \label{results:lennard_100_storage}
-    \end{subfigure}
-    \begin{subfigure}{0.48\textwidth}
-        \includegraphics[width=\textwidth]{figures/dora_mesh/random_storage.png}
-        \caption{Random topology}
-        \label{results:random_100_storage}
-    \end{subfigure}
-    \caption[RASS total storage]{Total storage capacity comparison of \ac{RASS}, hop count and stigmergy in different topologies.}
-    \label{results:rass_storage}
+    \includegraphics[width=16cm]{figures/dora_mesh/random_storage.png}
+    \caption{RASS storage capacity (random topology)}
+    \label{results:random_100_storage}
 \end{figure}
+
+
+% \begin{figure*}
+%     \centering
+%     \begin{subfigure}{0.48\textwidth}
+%         \includegraphics[width=\textwidth]{figures/dora_mesh/grid_storage.png}
+%         \caption{Grid topology}
+%         \label{results:grid_100_storage}
+%     \end{subfigure}
+%     \begin{subfigure}{0.48\textwidth}
+%         \includegraphics[width=\textwidth]{figures/dora_mesh/scale_storage.png}
+%         \caption{Scale-free topology}
+%         \label{results:scale_100_storage}
+%     \end{subfigure}
+%     \begin{subfigure}{0.48\textwidth}
+%         \includegraphics[width=\textwidth]{figures/dora_mesh/lennard_storage.png}
+%         \caption{Lennard-Jones topology}
+%         \label{results:lennard_100_storage}
+%     \end{subfigure}
+%     \begin{subfigure}{0.48\textwidth}
+%         \includegraphics[width=\textwidth]{figures/dora_mesh/random_storage.png}
+%         \caption{Random topology}
+%         \label{results:random_100_storage}
+%     \end{subfigure}
+%     \caption[RASS total storage]{Total storage capacity comparison of \ac{RASS}, hop count and stigmergy in different topologies.}
+%     \label{results:rass_storage}
+% \end{figure*}
 
 
 \begin{table}[htbp]
@@ -523,23 +613,35 @@ Looking at a summary of these results can help gain further understanding, and t
 
 \subsection{Experimental setup}
 We evaluated \ac{RASS}' performance with the same
-metrics on physical robots to confirm the real-world applicability of our system. We used 5 small drones, the CogniFlies \cite{de2021flexible}, in a controlled indoor environment. These drones use standard Raspberry Pi Zeros as their main computer, meaning they have relatively low capabilities, and are therefore well suited to verify our algorithm. We designed a static topology with one drone acting as a base station and the 4 others acting as agents. The radiation source (red cone) in Fig. \ref{cogniflyExperiment} is positioned to make one of the paths more dangerous, allowing us to verify if data is routed in the longer but safer path. The communication range is set to 1.5m, which is a realistic but restrictive value for drones equipped with WiFi capabilities. The topology is illustrated in Fig. \ref{cogniflyGraph}. To assess \ac{RASS}' performance, we compared it with a hop-count algorithm over 3 runs.
+metrics on physical robots to confirm the real-world applicability of our system. We used 5 small drones, the CogniFlies \cite{de2021flexible}, in a controlled indoor environment. These drones use standard Raspberry Pi Zeros as their main computer, meaning they have relatively low capabilities, and are therefore well suited to verify our algorithm. We designed a static topology with one drone acting as a base station and the 4 others acting as agents. The radiation source (red cone) in Fig. \ref{cogniflyExperiment} is positioned to make one of the paths more dangerous, allowing us to verify if data is routed in the longer but safer path. The communication range is set to 1.5m, which is a realistic but restrictive value for drones equipped with WiFi capabilities. The topology is illustrated in Fig. \ref{cogniflyGraph}. To control the topology, we kept the drones in fixed positions. To assess \ac{RASS}' performance, we compared it with a hop-count algorithm over 3 runs.
 
-\begin{figure}[htbp]
-    \centering
-    \begin{subfigure}{0.9\textwidth}
-        \includegraphics[width=\textwidth]{figures/dora_mesh/cognifly.jpg}
-        \caption[RASS physical experiment setup]{Physical disposition of the 3x3m environment with 5 drones and a radiation source (red cone).}
-        \label{cogniflyExperiment}
-    \end{subfigure}
-    \begin{subfigure}{0.9\textwidth}
-        \includegraphics[width=\textwidth]{figures/dora_mesh/lab_graph_left.png}
-        \caption[RASS physical experiment schema]{A simplified graph description of the physical testing environment. The decaying radiation source is represented by the concentric red circles. The base station, at the top of the figure, is also a drone.}
-        \label{cogniflyGraph}
-    \end{subfigure}
-    \caption{RASS physical experiment setup}
-    \label{cogniflyPhysical}
-\end{figure}
+\begin{figure*}
+    \includegraphics[width=16cm]{figures/dora_mesh/cognifly.jpg}
+    \caption[RASS physical experiment setup]{Physical disposition of the 3x3m environment with 5 drones and a radiation source (red cone).}
+    \label{cogniflyExperiment}
+\end{figure*}
+
+\begin{figure*}
+    \includegraphics[width=\textwidth]{figures/dora_mesh/lab_graph_left.png}
+    \caption[RASS physical experiment schema]{A simplified graph description of the physical testing environment. The decaying radiation source is represented by the concentric red circles. The base station, at the top of the figure, is also a drone.}
+    \label{cogniflyGraph}
+\end{figure*}
+
+% \begin{figure}[htbp]
+%     \centering
+%     \begin{subfigure}{0.9\textwidth}
+%         \includegraphics[width=\textwidth]{figures/dora_mesh/cognifly.jpg}
+%         \caption[RASS physical experiment setup]{Physical disposition of the 3x3m environment with 5 drones and a radiation source (red cone).}
+%         \label{cogniflyExperiment}
+%     \end{subfigure}
+%     \begin{subfigure}{0.9\textwidth}
+%         \includegraphics[width=\textwidth]{figures/dora_mesh/lab_graph_left.png}
+%         \caption[RASS physical experiment schema]{A simplified graph description of the physical testing environment. The decaying radiation source is represented by the concentric red circles. The base station, at the top of the figure, is also a drone.}
+%         \label{cogniflyGraph}
+%     \end{subfigure}
+%     \caption{RASS physical experiment setup}
+%     \label{cogniflyPhysical}
+% \end{figure}
 
 \subsection{Results}
 The reliability results of the physical experiments conducted on the drones are presented in Fig. \ref{results:physicalRelaibility}. They show that \ac{RASS} outperforms the hop-count algorithm in terms of reliability by a factor of almost 2. In other words, \ac{RASS} lost much less data due to corruption issues. This lead to overall greater swarm storage. 
